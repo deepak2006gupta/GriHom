@@ -9,6 +9,7 @@ import IdeasPage from './pages/IdeasPage/IdeasPage';
 import ReportPage from './pages/ReportPage/ReportPage';
 import AdminPanel from './pages/AdminPanel/AdminPanel';
 import Dashboard from './pages/Dashboard/Dashboard';
+import DecorPage from './pages/DecorPage/DecorPage';
 import './App.css';
 
 const LoginRequiredAlert = ({ title, description, onLoginClick }) => (
@@ -98,6 +99,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/ideas" element={<IdeasPage />} />
+            <Route path="/decor" element={<DecorPage />} />
             <Route 
               path="/report" 
               element={
