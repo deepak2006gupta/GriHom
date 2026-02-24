@@ -38,6 +38,9 @@ const Header = ({ user, onLoginClick, onLogout }) => {
             <Link to="/ideas" className={location.pathname === '/ideas' ? 'active' : ''}>Ideas</Link>
           </li>
           <li>
+          <Link to="/decor" className={location.pathname === '/decor' ? 'active' : ''}>✨ Decor</Link>
+          </li>
+          <li>
             <Link
               to="/report"
               className={`${location.pathname === '/report' ? 'active' : ''} nav-report-link`}
