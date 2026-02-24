@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import apiService from '../../services/api';
 import './IdeasPage.css';
 
+const FAVORITE_KEY = 'GriHom_favoriteIdeas';
+
 const budgetSections = [
   { key: 'Low', title: 'Low Budget (₹10k–₹50k)', subtitle: 'Quick and affordable upgrades with strong value impact.' },
   { key: 'Medium', title: 'Medium Budget (₹50k–₹2L)', subtitle: 'Balanced improvements for better resale perception.' },
@@ -24,6 +26,16 @@ const IdeasPage = () => {
   const [improvements, setImprovements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeChip, setActiveChip] = useState('All');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('impact-desc');
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const [favoriteIds, setFavoriteIds] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem(FAVORITE_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  });
 
   const loadImprovements = useCallback(async () => {
     try {
@@ -41,6 +53,19 @@ const IdeasPage = () => {
     loadImprovements();
   }, [loadImprovements]);
 
+  useEffect(() => {
+    localStorage.setItem(FAVORITE_KEY, JSON.stringify(favoriteIds));
+  }, [favoriteIds]);
+
+  const toggleFavorite = (ideaId) => {
+    setFavoriteIds((prev) => {
+      if (prev.includes(ideaId)) {
+        return prev.filter((id) => id !== ideaId);
+      }
+      return [...prev, ideaId];
+    });
+  };
+
   const filterByChip = (idea) => {
     if (activeChip === 'All') return true;
     if (activeChip === 'Kitchen') return idea.room === 'Kitchen';
@@ -53,7 +78,25 @@ const IdeasPage = () => {
     return true;
   };
 
-  const filteredIdeas = improvements.filter(filterByChip);
+  const filteredIdeas = improvements
+    .filter(filterByChip)
+    .filter((idea) => {
+      const term = searchTerm.trim().toLowerCase();
+      if (!term) return true;
+      return (
+        idea.title.toLowerCase().includes(term)
+        || idea.description.toLowerCase().includes(term)
+        || idea.room.toLowerCase().includes(term)
+      );
+    })
+    .filter((idea) => (favoritesOnly ? favoriteIds.includes(idea.id) : true))
+    .sort((a, b) => {
+      if (sortBy === 'impact-desc') return b.impact - a.impact;
+      if (sortBy === 'impact-asc') return a.impact - b.impact;
+      if (sortBy === 'budget-low-high') return a.budgetRange.localeCompare(b.budgetRange);
+      if (sortBy === 'title-asc') return a.title.localeCompare(b.title);
+      return 0;
+    });
 
   return (
     <div className="ideas-page">
@@ -74,6 +117,42 @@ const IdeasPage = () => {
             {chip}
           </button>
         ))}
+      </div>
+
+      <div className="ideas-toolbar classic-card">
+        <div className="toolbar-group">
+          <label htmlFor="idea-search">Search ideas</label>
+          <input
+            id="idea-search"
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search by room, title, or keyword"
+          />
+        </div>
+
+        <div className="toolbar-group">
+          <label htmlFor="sort-by">Sort by</label>
+          <select
+            id="sort-by"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="impact-desc">Impact: High to Low</option>
+            <option value="impact-asc">Impact: Low to High</option>
+            <option value="title-asc">Title: A to Z</option>
+            <option value="budget-low-high">Budget Range</option>
+          </select>
+        </div>
+
+        <button
+          type="button"
+          className={`idea-chip favorite-toggle ${favoritesOnly ? 'active' : ''}`}
+          onClick={() => setFavoritesOnly((prev) => !prev)}
+          aria-pressed={favoritesOnly}
+        >
+          {favoritesOnly ? '⭐ Showing Favorites' : '☆ Favorites only'}
+        </button>
       </div>
 
       <div className="ideas-count">
@@ -104,6 +183,14 @@ const IdeasPage = () => {
                     </div>
                     <span className="room-tag">{improvement.room}</span>
                   </div>
+
+                  <button
+                    type="button"
+                    className={`favorite-btn ${favoriteIds.includes(improvement.id) ? 'active' : ''}`}
+                    onClick={() => toggleFavorite(improvement.id)}
+                  >
+                    {favoriteIds.includes(improvement.id) ? '⭐ Saved' : '☆ Save'}
+                  </button>
 
                   <h3>{improvement.title}</h3>
                   <p className="idea-description">{improvement.description}</p>
