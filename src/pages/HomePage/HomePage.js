@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
 import homeHeroIllustration from '../../assets/home-hero.svg';
+import gmailLogo from '../../assets/gmail-logo.png';
 
 const HomePage = () => {
   const stats = [
@@ -15,17 +16,20 @@ const HomePage = () => {
     {
       quote: 'The report helped us prioritize kitchen and lighting upgrades. We got better offers within 2 weeks.',
       person: 'Anusha R.',
-      location: 'Vijayawada'
+      location: 'Vijayawada',
+      email: 'anusha.r@gmail.com'
     },
     {
       quote: 'Simple, practical, and budget-aware. We knew exactly what to fix before listing our flat.',
       person: 'Rahul & Neha',
-      location: 'Hyderabad'
+      location: 'Hyderabad',
+      email: 'rahul.neha@gmail.com'
     },
     {
       quote: 'Great quick-win ideas. Even small bathroom updates improved buyer interest a lot.',
       person: 'Srinivas K.',
-      location: 'Bengaluru'
+      location: 'Bengaluru',
+      email: 'srinivas.k@gmail.com'
     }
   ];
 
@@ -41,6 +45,14 @@ const HomePage = () => {
     {
       question: 'Do I need a site visit?',
       answer: 'No site visit is needed for the initial report. You can refine plans later with contractors if required.'
+    },
+    {
+      question: 'Can I customize the recommendations?',
+      answer: 'Yes, you can customize the recommendations based on your preferences and budget.'
+    },
+    {
+      question: 'How do I get started?',
+      answer: 'Simply sign up, provide your property details, and generate your personalized report.'
     }
   ];
 
