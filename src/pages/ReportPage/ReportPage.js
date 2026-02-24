@@ -97,10 +97,27 @@ const ReportPage = ({ user }) => {
     setRecommendations(recs);
     setValorScore(score);
     setShowReport(true);
+
+    if (user) {
+      const reportData = {
+        propertyData,
+        recommendations: recs,
+        valorScore: score,
+        title: `GriHom Report - ${new Date().toLocaleDateString()}`
+      };
+
+      saveUserReport(reportData);
+      setSavedReports(getUserReports());
+      setReportSaved(true);
+      return;
+    }
+
     setReportSaved(false);
   };
 
   const saveReport = () => {
+    if (reportSaved) return;
+
     const reportData = {
       propertyData,
       recommendations,
@@ -111,8 +128,6 @@ const ReportPage = ({ user }) => {
     saveUserReport(reportData);
     setSavedReports(getUserReports());
     setReportSaved(true);
-    
-    setTimeout(() => setReportSaved(false), 3000);
   };
 
   const calculateTotalInvestment = () => {

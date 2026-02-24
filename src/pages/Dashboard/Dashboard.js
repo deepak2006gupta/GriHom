@@ -123,6 +123,11 @@ const Dashboard = ({ user }) => {
                   <button className="action-btn" onClick={() => navigate('/ideas')}>
                     💡 Browse Ideas
                   </button>
+                  {user?.isAdmin && (
+                    <button className="action-btn" onClick={() => navigate('/admin/suggestions')}>
+                      💡 Suggestions
+                    </button>
+                  )}
                   <button className="action-btn" onClick={() => setActiveTab('reports')}>
                     📊 Compare Reports
                   </button>

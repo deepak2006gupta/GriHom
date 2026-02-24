@@ -1,4 +1,5 @@
 import { improvementData } from '../data/improvementData';
+import { getAdminImprovements } from '../utils/storage';
 
 const USERS_KEY = 'GriHom_users';
 const REPORTS_KEY = 'GriHom_reports';
@@ -152,7 +153,26 @@ class ApiService {
   async getImprovements(filters = {}) {
     await this.delay(80);
 
-    return improvementData.filter((item) => {
+    const adminSuggestions = getAdminImprovements().map((item) => {
+      const fallbackBudgetRange =
+        item.cost === 'High'
+          ? '₹2,00,000+'
+          : item.cost === 'Medium'
+            ? '₹50,000 - ₹2,00,000'
+            : '₹10,000 - ₹50,000';
+
+      return {
+        ...item,
+        tags: item.tags || ['admin-suggestion'],
+        budgetRange: item.budgetRange || fallbackBudgetRange,
+        duration: item.duration || 'Custom timeline',
+        indianSpecific: item.indianSpecific ?? true
+      };
+    });
+
+    const mergedImprovements = [...adminSuggestions, ...improvementData];
+
+    return mergedImprovements.filter((item) => {
       const roomMatch = !filters.room || item.room === filters.room;
       const costMatch = !filters.cost || item.cost === filters.cost;
       const effortMatch = !filters.effort || item.effort === filters.effort;

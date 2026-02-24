@@ -34,10 +34,50 @@
   font-size: 1.2rem;
 }
 
+.admin-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.admin-section-header h2 {
+  margin: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
 .admin-form {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+}
+
+.review-suggestion-card {
+  border: 1px solid var(--border-color);
+  background: var(--surface-muted);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.review-title {
+  font-weight: 700;
+  margin-bottom: 0.7rem;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.45rem 0.8rem;
+  margin-bottom: 0.65rem;
+}
+
+.review-actions {
+  margin-top: 0.9rem;
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
 }
 
 .form-row {
@@ -103,6 +143,40 @@
   display: flex;
   gap: 0.35rem;
   margin-top: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.empty-history {
+  color: var(--text-secondary);
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.history-item {
+  padding: 0.9rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.history-item-main h3 {
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+}
+
+.history-item-main p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.history-meta {
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
   flex-wrap: wrap;
 }
 

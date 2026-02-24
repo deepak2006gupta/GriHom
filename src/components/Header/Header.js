@@ -8,6 +8,13 @@ const Header = ({ user, onLoginClick, onLogout }) => {
   const profileMenuRef = useRef(null);
   const userInitial = user?.name ? user.name.charAt(0).toUpperCase() : 'U';
 
+  const closeMenu = () => setShowMenu(false);
+
+  const handleLogoutClick = () => {
+    closeMenu();
+    onLogout();
+  };
+
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (!profileMenuRef.current?.contains(event.target)) {
@@ -46,6 +53,12 @@ const Header = ({ user, onLoginClick, onLogout }) => {
             </Link>
           </li>
 
+          {user && (
+            <li>
+              <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>Dashboard</Link>
+            </li>
+          )}
+
           {user?.isAdmin && (
             <li>
               <Link to="/admin" className={location.pathname === '/admin' ? 'active' : ''}>Admin</Link>
@@ -72,9 +85,9 @@ const Header = ({ user, onLoginClick, onLogout }) => {
 
               {showMenu && (
                 <div className="kebab-dropdown">
-                  <Link to="/dashboard" className="kebab-item">📊 Dashboard</Link>
-                  <Link to="/report" className="kebab-item">🏠 New Report</Link>
-                  <button onClick={onLogout} className="kebab-item logout">🚪 Sign Out</button>
+                  <Link to="/profile" className="kebab-item" onClick={closeMenu}>👤 Profile</Link>
+                  <Link to="/report" className="kebab-item" onClick={closeMenu}>🏠 New Report</Link>
+                  <button onClick={handleLogoutClick} className="kebab-item logout">🚪 Sign Out</button>
                 </div>
               )}
             </div>
