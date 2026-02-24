@@ -11,7 +11,15 @@ const budgetSections = [
   { key: 'High', title: 'High Budget (₹2L+)', subtitle: 'Premium upgrades for major value enhancement.' }
 ];
 
-const filterChips = ['All', 'Kitchen', 'Bathroom', 'Curb Appeal', 'Quick Wins'];
+const filterChips = [
+  'All',
+  'Kitchen',
+  'Bathroom',
+  'Curb Appeal',
+  'Quick Wins',
+  'Minimalist',
+  'Traditional'
+];
 
 const roomIcons = {
   Kitchen: '🍽️',
@@ -71,10 +79,20 @@ const IdeasPage = () => {
     if (activeChip === 'Kitchen') return idea.room === 'Kitchen';
     if (activeChip === 'Bathroom') return idea.room === 'Bathroom';
     if (activeChip === 'Curb Appeal') return idea.room === 'Exterior';
+
     if (activeChip === 'Quick Wins') {
       const quickTags = ['quick', 'quick-win'];
       return idea.cost === 'Low' || idea.tags?.some((tag) => quickTags.includes(tag));
     }
+
+    if (activeChip === 'Minimalist') {
+      return idea.style === 'Minimalist';
+    }
+
+    if (activeChip === 'Traditional') {
+      return idea.style === 'Traditional';
+    }
+
     return true;
   };
 
@@ -84,9 +102,9 @@ const IdeasPage = () => {
       const term = searchTerm.trim().toLowerCase();
       if (!term) return true;
       return (
-        idea.title.toLowerCase().includes(term)
-        || idea.description.toLowerCase().includes(term)
-        || idea.room.toLowerCase().includes(term)
+        idea.title.toLowerCase().includes(term) ||
+        idea.description.toLowerCase().includes(term) ||
+        idea.room.toLowerCase().includes(term)
       );
     })
     .filter((idea) => (favoritesOnly ? favoriteIds.includes(idea.id) : true))
@@ -102,17 +120,16 @@ const IdeasPage = () => {
     <div className="ideas-page">
       <header className="ideas-header">
         <h1>Home Improvement Ideas</h1>
-        <p>Browse ideas by budget, room type, and impact to plan faster.</p>
+        <p>Browse ideas by budget, room type, style, and impact to plan faster.</p>
       </header>
 
-      <div className="ideas-chip-row" role="tablist" aria-label="Idea category filters">
+      <div className="ideas-chip-row">
         {filterChips.map((chip) => (
           <button
             key={chip}
             type="button"
             className={`idea-chip ${activeChip === chip ? 'active' : ''}`}
             onClick={() => setActiveChip(chip)}
-            aria-pressed={activeChip === chip}
           >
             {chip}
           </button>
@@ -121,9 +138,8 @@ const IdeasPage = () => {
 
       <div className="ideas-toolbar classic-card">
         <div className="toolbar-group">
-          <label htmlFor="idea-search">Search ideas</label>
+          <label>Search ideas</label>
           <input
-            id="idea-search"
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -132,9 +148,8 @@ const IdeasPage = () => {
         </div>
 
         <div className="toolbar-group">
-          <label htmlFor="sort-by">Sort by</label>
+          <label>Sort by</label>
           <select
-            id="sort-by"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
@@ -149,14 +164,13 @@ const IdeasPage = () => {
           type="button"
           className={`idea-chip favorite-toggle ${favoritesOnly ? 'active' : ''}`}
           onClick={() => setFavoritesOnly((prev) => !prev)}
-          aria-pressed={favoritesOnly}
         >
           {favoritesOnly ? '⭐ Showing Favorites' : '☆ Favorites only'}
         </button>
       </div>
 
       <div className="ideas-count">
-        {loading ? 'Loading...' : `Showing ${filteredIdeas.length} ideas for ${activeChip}`}
+        {loading ? 'Loading...' : `Showing ${filteredIdeas.length} ideas`}
       </div>
 
       {budgetSections.map((section) => {
@@ -169,7 +183,7 @@ const IdeasPage = () => {
                 <h2>{section.title}</h2>
                 <p>{section.subtitle}</p>
               </div>
-              <Link to="/report" className="btn btn-secondary budget-report-btn">
+              <Link to="/report" className="btn btn-secondary">
                 See impact in my report
               </Link>
             </div>
@@ -177,11 +191,15 @@ const IdeasPage = () => {
             <div className="ideas-grid">
               {sectionIdeas.map((improvement) => (
                 <article key={improvement.id} className="idea-card classic-card">
+
                   <div className="idea-card-header">
-                    <div className="idea-icon" aria-hidden="true">
+                    <div className="idea-icon">
                       {roomIcons[improvement.room] || '🏡'}
                     </div>
                     <span className="room-tag">{improvement.room}</span>
+                    {improvement.style && (
+                      <span className="style-tag">{improvement.style}</span>
+                    )}
                   </div>
 
                   <button
@@ -206,7 +224,7 @@ const IdeasPage = () => {
                     </div>
                   </div>
 
-                  <Link to="/report" className="btn btn-primary idea-cta">
+                  <Link to="/report" className="btn btn-primary">
                     Add to my improvement plan
                   </Link>
                 </article>
