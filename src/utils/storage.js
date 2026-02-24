@@ -29,6 +29,16 @@ export const getUserPreferences = () => {
   return JSON.parse(localStorage.getItem('GriHom_preferences') || '{}');
 };
 
+const THEME_KEY = 'GriHom_theme';
+
+export const saveThemePreference = (theme) => {
+  localStorage.setItem(THEME_KEY, theme);
+};
+
+export const getThemePreference = () => {
+  return localStorage.getItem(THEME_KEY);
+};
+
 const ADMIN_IMPROVEMENT_HISTORY_KEY = 'GriHom_admin_improvement_history';
 const ADMIN_IMPROVEMENTS_KEY = 'GriHom_admin_improvements';
 

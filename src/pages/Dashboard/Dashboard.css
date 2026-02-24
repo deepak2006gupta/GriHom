@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #eef2ff;
+  background: var(--surface-soft);
   border-radius: 11px;
 }
 
@@ -78,7 +78,7 @@
 .tab-navigation {
   display: flex;
   gap: 0.35rem;
-  background: #fff;
+  background: var(--surface-elevated);
   padding: 0.4rem;
   border-radius: 12px;
   border: 1px solid var(--border-color);
@@ -100,11 +100,11 @@
 
 .tab-btn.active {
   background: linear-gradient(120deg, var(--primary-600), var(--secondary-color));
-  color: white;
+  color: var(--on-primary);
 }
 
 .tab-btn:hover:not(.active) {
-  background: #f8fafc;
+  background: var(--surface-hover);
 }
 
 .tab-content {
@@ -186,7 +186,7 @@
 .action-btn {
   padding: 0.75rem 0.9rem;
   border: 1px solid var(--border-color);
-  background: white;
+  background: var(--surface-elevated);
   border-radius: 11px;
   cursor: pointer;
   font-size: 1rem;
@@ -197,7 +197,7 @@
 
 .action-btn:hover {
   border-color: var(--primary-color);
-  background: #f8fafc;
+  background: var(--surface-hover);
   transform: translateX(2px);
 }
 

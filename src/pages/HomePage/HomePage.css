@@ -17,9 +17,9 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  background: #e0e7ff;
-  color: #312e81;
-  border: 1px solid #c7d2fe;
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  border: 1px solid var(--chip-border);
   padding: 0.35rem 0.75rem;
   border-radius: 999px;
   font-size: 0.82rem;
@@ -56,7 +56,7 @@
 }
 
 .stat-item {
-  background: #fff;
+  background: var(--surface-elevated);
   border: 1px solid var(--border-color);
   border-radius: 14px;
   padding: 0.9rem;
@@ -100,7 +100,7 @@
   border-radius: 16px;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
-  background: #fff;
+  background: var(--surface-elevated);
 }
 
 .visual-card {
@@ -109,7 +109,7 @@
   padding: 1.2rem;
   border-radius: 18px;
   background: linear-gradient(135deg, #1e3a8a, #2563eb);
-  color: #fff;
+  color: var(--on-primary);
   box-shadow: var(--shadow-lg);
   display: grid;
   gap: 0.85rem;
@@ -162,7 +162,7 @@
 }
 
 .feature-card {
-  background: #fff;
+  background: var(--surface-elevated);
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 1.35rem;
@@ -201,7 +201,7 @@
 }
 
 .testimonial-card {
-  background: #fff;
+  background: var(--surface-elevated);
   border: 1px solid var(--border-color);
   border-radius: 16px;
   box-shadow: var(--shadow-sm);
@@ -234,7 +234,7 @@
 }
 
 .faq-item {
-  background: #fff;
+  background: var(--surface-elevated);
   border: 1px solid var(--border-color);
   border-radius: 14px;
   box-shadow: var(--shadow-sm);
@@ -259,7 +259,7 @@
 }
 
 .cta-content {
-  background: #fff;
+  background: var(--surface-elevated);
   border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 2rem 1.25rem;

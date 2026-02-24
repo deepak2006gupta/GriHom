@@ -37,7 +37,7 @@
   justify-content: center;
   font-weight: 700;
   font-size: 1.15rem;
-  color: #fff;
+  color: var(--on-primary);
   background: linear-gradient(120deg, var(--primary-600), var(--secondary-color));
 }
 

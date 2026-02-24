@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Login from './components/Auth/Login';
@@ -11,6 +11,7 @@ import AdminPanel from './pages/AdminPanel/AdminPanel';
 import Dashboard from './pages/Dashboard/Dashboard';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import AdminImprovementsPage from './pages/AdminImprovementsPage/AdminImprovementsPage';
+import { getThemePreference, saveThemePreference } from './utils/storage';
 import './App.css';
 
 const LoginRequiredAlert = ({ title, description, onLoginClick }) => (
@@ -26,11 +27,38 @@ const LoginRequiredAlert = ({ title, description, onLoginClick }) => (
 );
 
 function App() {
+  const getInitialTheme = useMemo(
+    () => () => {
+      const savedTheme = getThemePreference();
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        return savedTheme;
+      }
+
+      if (typeof window !== 'undefined' && window.matchMedia) {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      return 'light';
+    },
+    []
+  );
+
+  const [theme, setTheme] = useState(getInitialTheme);
   const [user, setUser] = useState(null);
   const [showAuth, setShowAuth] = useState(false);
   const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState('');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.style.colorScheme = theme;
+    saveThemePreference(theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
+  };
 
   const handleLogin = async ({ email, password }) => {
     setAuthLoading(true);
@@ -95,6 +123,8 @@ function App() {
           user={user} 
           onLoginClick={openLogin} 
           onLogout={handleLogout} 
+          theme={theme}
+          onToggleTheme={toggleTheme}
         />
         <main className="main-content">
           <Routes>

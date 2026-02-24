@@ -4,7 +4,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(15, 23, 42, 0.62);
+  background: var(--overlay-bg);
   backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
@@ -14,7 +14,7 @@
 
 .auth-container {
   position: relative;
-  background: #fff;
+  background: var(--surface-elevated);
   padding: 1.75rem;
   border-radius: 18px;
   width: 460px;
@@ -75,7 +75,7 @@
   height: 34px;
   border-radius: 10px;
   border: 1px solid var(--border-color);
-  background: #f8fafc;
+  background: var(--surface-muted);
   font-size: 1.3rem;
   line-height: 1;
   cursor: pointer;
@@ -94,7 +94,7 @@
 .type-btn {
   flex: 1;
   padding: 0.65rem 0.8rem;
-  background: #f8fafc;
+  background: var(--surface-muted);
   border: 1px solid var(--border-color);
   border-radius: 11px;
   font-size: 0.9rem;
@@ -105,12 +105,12 @@
 }
 
 .type-btn:hover {
-  background: #eff6ff;
+  background: var(--surface-soft);
 }
 
 .type-btn.active {
   background: linear-gradient(120deg, var(--primary-600), var(--secondary-color));
-  color: white;
+  color: var(--on-primary);
   border-color: transparent;
   box-shadow: 0 8px 18px rgba(37, 99, 235, 0.3);
 }
@@ -133,7 +133,7 @@
   border: 1px solid var(--border-color);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   font-size: 0.95rem;
-  background: #fff;
+  background: var(--surface-elevated);
 }
 
 .premium-input:focus {
@@ -193,12 +193,12 @@
 }
 
 .error-message {
-  background: #fef2f2;
-  color: #b91c1c;
+  background: var(--alert-error-bg);
+  color: var(--alert-error-text);
   padding: 0.6rem 0.72rem;
   border-radius: 10px;
   margin-bottom: 0.35rem;
-  border: 1px solid #fecaca;
+  border: 1px solid var(--alert-error-border);
   font-size: 0.85rem;
 }
 

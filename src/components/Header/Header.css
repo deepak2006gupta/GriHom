@@ -1,5 +1,5 @@
 .header {
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--header-bg);
   backdrop-filter: blur(12px);
   box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
   position: sticky;
@@ -24,6 +24,19 @@
   text-decoration: none;
   letter-spacing: -0.3px;
   transition: all 0.3s ease;
+}
+
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
 }
 
 .nav-brand a:hover {
@@ -64,23 +77,23 @@
 
 .nav-links a.active {
   background: linear-gradient(120deg, var(--primary-600), var(--secondary-color));
-  color: white;
+  color: var(--on-primary);
   box-shadow: 0 8px 20px rgba(37, 99, 235, 0.28);
 }
 
 .nav-links .nav-report-link {
-  background: #eef2ff;
+  background: var(--surface-soft);
   color: var(--primary-color);
-  border: 1px solid #bfdbfe;
+  border: 1px solid var(--border-color);
 }
 
 .nav-links .nav-report-link:hover {
-  background: #dbeafe;
+  background: var(--surface-hover);
 }
 
 .nav-links .nav-report-link.active {
   background: linear-gradient(120deg, var(--primary-600), var(--secondary-color));
-  color: #fff;
+  color: var(--on-primary);
 }
 
 .nav-actions .btn {
@@ -96,7 +109,7 @@
   position: absolute;
   top: calc(100% + 10px);
   right: 0;
-  background: #ffffff;
+  background: var(--dropdown-bg);
   border-radius: 14px;
   padding: 0.45rem;
   min-width: 196px;
@@ -120,12 +133,12 @@
 }
 
 .kebab-item:hover {
-  background: #f8fafc;
+  background: var(--surface-hover);
   color: var(--text-primary);
 }
 
 .logout {
-  color: #dc2626;
+  color: var(--danger);
 }
 
 .profile-menu {
@@ -146,7 +159,7 @@
 }
 
 .profile-menu-btn:hover {
-  background: #e2e8f0;
+  background: var(--surface-strong);
 }
 
 .profile-menu-btn.active {
@@ -159,7 +172,7 @@
   height: 38px;
   border-radius: 50%;
   background: linear-gradient(120deg, var(--primary-600), var(--secondary-color));
-  color: #fff;
+  color: var(--on-primary);
   font-size: 0.95rem;
   font-weight: 700;
   display: flex;
@@ -171,6 +184,25 @@
 .nav-actions {
   display: flex;
   align-items: center;
+  gap: 0.65rem;
+}
+
+.theme-toggle-btn {
+  min-height: 44px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-muted);
+  color: var(--text-secondary);
+  border-radius: 12px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--surface-soft);
+  color: var(--text-primary);
 }
 
 @media (max-width: 900px) {

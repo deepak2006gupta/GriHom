@@ -88,7 +88,7 @@
 
 .improvement-item {
   padding: 0.9rem;
-  background: #f8fafc;
+  background: var(--surface-muted);
   border-radius: 12px;
   border: 1px solid var(--border-color);
 }
@@ -118,23 +118,23 @@
 }
 
 .meta-tag.room {
-  background: #e3f2fd;
-  color: #1976d2;
+  background: var(--tag-info-bg);
+  color: var(--tag-info-text);
 }
 
 .meta-tag.cost {
-  background: #e8f5e8;
-  color: #2e7d32;
+  background: var(--tag-success-bg);
+  color: var(--tag-success-text);
 }
 
 .meta-tag.roi {
-  background: #fff3e0;
-  color: #ef6c00;
+  background: var(--tag-warn-bg);
+  color: var(--tag-warn-text);
 }
 
 .meta-tag.impact {
-  background: #fce4ec;
-  color: #c2185b;
+  background: var(--tag-pink-bg);
+  color: var(--tag-pink-text);
 }
 
 @media (max-width: 768px) {

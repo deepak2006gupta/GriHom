@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import grihomLogo from '../../assets/grihom-logo.svg';
 import './Header.css';
 
-const Header = ({ user, onLoginClick, onLogout }) => {
+const Header = ({ user, onLoginClick, onLogout, theme, onToggleTheme }) => {
   const location = useLocation();
   const [showMenu, setShowMenu] = useState(false);
   const profileMenuRef = useRef(null);
@@ -34,7 +35,10 @@ const Header = ({ user, onLoginClick, onLogout }) => {
       <nav className="navbar">
 
         <div className="nav-brand">
-          <Link to="/">GriHom</Link>
+          <Link to="/" className="brand-link">
+            <img src={grihomLogo} alt="GriHom logo" className="brand-logo" />
+            <span>GriHom</span>
+          </Link>
         </div>
 
         <ul className="nav-links">
@@ -67,6 +71,16 @@ const Header = ({ user, onLoginClick, onLogout }) => {
         </ul>
 
         <div className="nav-actions">
+          <button
+            type="button"
+            className="theme-toggle-btn"
+            onClick={onToggleTheme}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+          >
+            {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+          </button>
+
           {!user ? (
             <button onClick={onLoginClick} className="btn btn-primary">
               🔑 Sign In
