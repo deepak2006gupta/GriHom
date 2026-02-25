@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
 import homeHeroIllustration from '../../assets/home-hero.svg';
+import logo from '../../assets/grihom-logo.svg';
 
 const HomePage = () => {
   const stats = [
@@ -32,17 +33,32 @@ const HomePage = () => {
   const faqs = [
     {
       question: 'How accurate is this valuation guidance?',
-      answer: 'Recommendations are based on local improvement data and typical market trends. Use it as a practical decision guide before final pricing.'
+      answer: 'Recommendations are based on local improvement data and typical market trends. Use it as a practical decision guide before final pricing. Additionally, we continuously update our database to reflect the latest market conditions, ensuring you get the most relevant advice.'
     },
     {
       question: 'Is the report free?',
-      answer: 'Yes, your personalized report is free to generate and takes only a few minutes.'
+      answer: 'Yes, your personalized report is free to generate and takes only a few minutes. There are no hidden charges, and you can generate multiple reports for different properties.'
     },
     {
       question: 'Do I need a site visit?',
-      answer: 'No site visit is needed for the initial report. You can refine plans later with contractors if required.'
+      answer: 'No site visit is needed for the initial report. You can refine plans later with contractors if required. However, if you wish, we can connect you with trusted local professionals for an on-site consultation.'
+    },
+    {
+      question: 'Can I trust the contractors you recommend?',
+      answer: 'We carefully vet all contractors in our network to ensure they meet high standards of quality and reliability. You can also review ratings and feedback from other homeowners before making a decision.'
+    },
+    {
+      question: 'How long does it take to see results?',
+      answer: 'The timeline depends on the scope of your improvements. Simple upgrades can show results in weeks, while larger projects may take a few months. Our team is here to guide you every step of the way.'
+    },
+    {
+      question: 'What if I have a unique property?',
+      answer: 'Our recommendations are tailored to your property’s unique features and location. If you have specific concerns, our experts are available to provide personalized advice.'
     }
   ];
+
+  // Function to get the first initial
+  const getInitial = (name) => name.charAt(0).toUpperCase();
 
   return (
     <div className="homepage">
@@ -123,13 +139,19 @@ const HomePage = () => {
         <div className="container">
           <div className="section-header">
             <h2>What Homeowners Say</h2>
+            <img src={logo} alt="Logo" className="logo" /> {/* Updated logo reference */}
           </div>
           <div className="testimonials-grid">
             {testimonials.map((testimonial, index) => (
               <article key={index} className="testimonial-card">
-                <p>“{testimonial.quote}”</p>
-                <h3>{testimonial.person}</h3>
-                <span>{testimonial.location}</span>
+                <div className="avatar" aria-hidden="true">
+                  {getInitial(testimonial.person)}
+                </div>
+                <div className="testimonial-content">
+                  <p>“{testimonial.quote}”</p>
+                  <h3>{testimonial.person}</h3>
+                  <span>{testimonial.location}</span>
+                </div>
               </article>
             ))}
           </div>
