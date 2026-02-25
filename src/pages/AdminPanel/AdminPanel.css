@@ -6,6 +6,11 @@
 
 .admin-header {
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
 }
 
 .admin-header h1 {
@@ -15,6 +20,10 @@
 
 .admin-header p {
   color: var(--text-secondary);
+}
+
+.admin-suggestions-link {
+  white-space: nowrap;
 }
 
 .admin-content {
@@ -84,7 +93,7 @@
 
 .improvement-item {
   padding: 0.9rem;
-  background: #f8fafc;
+  background: var(--surface-muted);
   border-radius: 12px;
   border: 1px solid var(--border-color);
 }
@@ -106,6 +115,17 @@
   flex-wrap: wrap;
 }
 
+.improvement-actions {
+  margin-top: 0.7rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.delete-action {
+  color: var(--danger);
+}
+
 .users-header p {
   color: var(--text-secondary);
   margin-top: -0.4rem;
@@ -121,15 +141,27 @@
 }
 
 .admin-alert.error {
-  color: #991b1b;
-  background: #fef2f2;
-  border-color: #fecaca;
+  color: var(--alert-danger-text);
+  background: var(--alert-danger-bg);
+  border-color: var(--alert-danger-border);
 }
 
 .admin-alert.success {
-  color: #065f46;
-  background: #ecfdf5;
-  border-color: #bbf7d0;
+  color: var(--alert-success-text);
+  background: var(--alert-success-bg);
+  border-color: var(--alert-success-border);
+}
+
+.empty-state {
+  color: var(--text-secondary);
+}
+
+.suggestion-section-actions {
+  margin-bottom: 0.8rem;
+}
+
+.admin-section-link {
+  margin-top: 0.8rem;
 }
 
 .users-list {
@@ -171,7 +203,7 @@
 .meta-tag.current-user,
 .meta-tag.role-user,
 .meta-tag.status-inactive {
-  background: #fff;
+  background: var(--card-bg);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
 }
@@ -184,7 +216,7 @@
 }
 
 .danger-action {
-  color: #b91c1c;
+  color: var(--danger);
 }
 
 .meta-tag {
@@ -195,28 +227,32 @@
 }
 
 .meta-tag.room {
-  background: #e3f2fd;
-  color: #1976d2;
+  background: var(--tag-room-bg);
+  color: var(--tag-room-text);
 }
 
 .meta-tag.cost {
-  background: #e8f5e8;
-  color: #2e7d32;
+  background: var(--tag-cost-bg);
+  color: var(--tag-cost-text);
 }
 
 .meta-tag.roi {
-  background: #fff3e0;
-  color: #ef6c00;
+  background: var(--tag-roi-bg);
+  color: var(--tag-roi-text);
 }
 
 .meta-tag.impact {
-  background: #fce4ec;
-  color: #c2185b;
+  background: var(--tag-impact-bg);
+  color: var(--tag-impact-text);
 }
 
 @media (max-width: 768px) {
   .admin-panel {
     padding: 1rem;
+  }
+
+  .admin-suggestions-link {
+    width: 100%;
   }
   
   .form-row {

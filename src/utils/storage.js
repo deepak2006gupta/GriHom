@@ -27,7 +27,6 @@ export const saveUserPreferences = (preferences) => {
 
 export const getUserPreferences = () => {
   return JSON.parse(localStorage.getItem('GriHom_preferences') || '{}');
-<<<<<<< HEAD
 };
 
 const THEME_KEY = 'GriHom_theme';
@@ -95,6 +94,16 @@ export const getAdminImprovementHistory = () => {
   return JSON.parse(localStorage.getItem(ADMIN_IMPROVEMENT_HISTORY_KEY) || '[]');
 };
 
+const PLANNED_IMPROVEMENTS_KEY = 'GriHom_planned_improvements';
+
+export const savePlannedImprovements = (improvementIds) => {
+  localStorage.setItem(PLANNED_IMPROVEMENTS_KEY, JSON.stringify(improvementIds));
+};
+
+export const getPlannedImprovements = () => {
+  return JSON.parse(localStorage.getItem(PLANNED_IMPROVEMENTS_KEY) || '[]');
+};
+
 export const saveAdminImprovementHistoryEntry = (entry) => {
   const existingHistory = getAdminImprovementHistory();
   const historyEntry = {
@@ -106,6 +115,22 @@ export const saveAdminImprovementHistoryEntry = (entry) => {
   existingHistory.unshift(historyEntry);
   localStorage.setItem(ADMIN_IMPROVEMENT_HISTORY_KEY, JSON.stringify(existingHistory));
   return historyEntry;
-=======
->>>>>>> ae3a9aabfce30e6e1e749b07f7d8ff6760fc59c2
+};
+
+const REVIEWS_KEY = 'GriHom_reviews';
+
+export const saveReview = (reviewData) => {
+  const existingReviews = JSON.parse(localStorage.getItem(REVIEWS_KEY) || '[]');
+  const newReview = {
+    id: Date.now(),
+    timestamp: new Date().toISOString(),
+    ...reviewData
+  };
+  existingReviews.unshift(newReview);
+  localStorage.setItem(REVIEWS_KEY, JSON.stringify(existingReviews));
+  return newReview;
+};
+
+export const getReviews = () => {
+  return JSON.parse(localStorage.getItem(REVIEWS_KEY) || '[]');
 };

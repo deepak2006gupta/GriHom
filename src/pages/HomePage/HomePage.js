@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { saveReview } from '../../utils/storage';
 import './HomePage.css';
 import homeHeroIllustration from '../../assets/home-hero.svg';
 
 const HomePage = () => {
+  const [reviewForm, setReviewForm] = useState({
+    name: '',
+    email: '',
+    rating: 5,
+    reviewText: ''
+  });
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+
   const stats = [
     { icon: '📈', number: '15–25%', label: 'Average value increase' },
     { icon: '🏠', number: '50,000+', label: 'Homeowners guided' },
@@ -43,6 +53,33 @@ const HomePage = () => {
       answer: 'No site visit is needed for the initial report. You can refine plans later with contractors if required.'
     }
   ];
+
+  const handleReviewChange = (e) => {
+    const { name, value } = e.target;
+    setReviewForm((prev) => ({
+      ...prev,
+      [name]: name === 'rating' ? parseInt(value) : value
+    }));
+  };
+
+  const handleReviewSubmit = (e) => {
+    e.preventDefault();
+    if (!reviewForm.name.trim() || !reviewForm.email.trim() || !reviewForm.reviewText.trim()) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
+    saveReview({
+      name: reviewForm.name,
+      email: reviewForm.email,
+      rating: reviewForm.rating,
+      reviewText: reviewForm.reviewText
+    });
+
+    setReviewSubmitted(true);
+    setReviewForm({ name: '', email: '', rating: 5, reviewText: '' });
+    setTimeout(() => setReviewSubmitted(false), 3000);
+  };
 
   return (
     <div className="homepage">
@@ -163,6 +200,123 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      <footer className="homepage-footer">
+        <div className="container footer-content">
+          <div className="footer-section review-section">
+            <div className="review-form-wrapper">
+              {!showReviewForm ? (
+                <div className="review-prompt">
+                  <h3>Share Your Experience</h3>
+                  <p>Help other homeowners by sharing your GriHom experience</p>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setShowReviewForm(true)}
+                  >
+                    ⭐ Leave a Review
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={() => setShowReviewForm(false)}
+                    aria-label="Close review form"
+                  >
+                    ✕
+                  </button>
+                  {reviewSubmitted ? (
+                    <div className="review-success">
+                      <p>✅ Thank you for your review! We appreciate your feedback.</p>
+                    </div>
+                  ) : (
+                    <div>
+                      <h3>Share Your Experience</h3>
+                      <form className="review-form" onSubmit={handleReviewSubmit}>
+                        <div className="form-group">
+                          <label htmlFor="review-name">Your Name</label>
+                          <input
+                            id="review-name"
+                            type="text"
+                            name="name"
+                            value={reviewForm.name}
+                            onChange={handleReviewChange}
+                            placeholder="Enter your name"
+                            required
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="review-email">Email</label>
+                          <input
+                            id="review-email"
+                            type="email"
+                            name="email"
+                            value={reviewForm.email}
+                            onChange={handleReviewChange}
+                            placeholder="your@email.com"
+                            required
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="review-rating">Rating</label>
+                          <div className="rating-stars">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <button
+                                key={star}
+                                type="button"
+                                className={`star ${reviewForm.rating >= star ? 'active' : ''}`}
+                                onClick={() => setReviewForm((prev) => ({ ...prev, rating: star }))}
+                                aria-label={`Rate ${star} stars`}
+                              >
+                                ⭐
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="review-text">Your Review</label>
+                          <textarea
+                            id="review-text"
+                            name="reviewText"
+                            value={reviewForm.reviewText}
+                            onChange={handleReviewChange}
+                            placeholder="Share your experience with GriHom..."
+                            rows="4"
+                            required
+                          ></textarea>
+                        </div>
+
+                        <button type="submit" className="btn btn-primary">
+                          Submit Review
+                        </button>
+                      </form>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="footer-brand">
+            <h3>GriHom</h3>
+            <p>Smart improvement guidance for better home value decisions.</p>
+          </div>
+
+          <nav className="footer-links" aria-label="Footer links">
+            <Link to="/">Home</Link>
+            <Link to="/ideas">Ideas</Link>
+            <Link to="/decor">Decor</Link>
+            <Link to="/report">Get Report</Link>
+          </nav>
+
+          <p className="footer-copy">© {new Date().getFullYear()} GriHom. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 };

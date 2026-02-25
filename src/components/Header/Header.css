@@ -71,7 +71,7 @@
 .nav-links .nav-report-link {
   background: var(--nav-report-bg);
   color: var(--primary-color);
-  border: 1px solid #bfdbfe;
+  border: 1px solid var(--chip-soft-border);
 }
 
 .nav-links .nav-report-link:hover {

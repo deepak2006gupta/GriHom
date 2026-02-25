@@ -49,6 +49,12 @@ const Header = ({ user, onLoginClick, onLogout, theme, onThemeToggle }) => {
             </Link>
           </li>
 
+          {user && (
+            <li>
+              <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>Dashboard</Link>
+            </li>
+          )}
+
           {user?.isAdmin && (
             <li>
               <Link to="/admin" className={location.pathname === '/admin' ? 'active' : ''}>Admin</Link>
@@ -85,9 +91,22 @@ const Header = ({ user, onLoginClick, onLogout, theme, onThemeToggle }) => {
 
               {showMenu && (
                 <div className="kebab-dropdown">
-                  <Link to="/dashboard" className="kebab-item">📊 Dashboard</Link>
-                  <Link to="/report" className="kebab-item">🏠 New Report</Link>
-                  <button onClick={onLogout} className="kebab-item logout">🚪 Sign Out</button>
+                  <Link
+                    to="/profile"
+                    className="kebab-item"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    👤 Profile
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setShowMenu(false);
+                      onLogout();
+                    }}
+                    className="kebab-item logout"
+                  >
+                    🚪 Sign Out
+                  </button>
                 </div>
               )}
             </div>

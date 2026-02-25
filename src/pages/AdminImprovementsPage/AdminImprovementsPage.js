@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   deleteAdminImprovement,
   getAdminImprovements,
@@ -9,6 +10,7 @@ import {
 import './AdminImprovementsPage.css';
 
 const AdminImprovementsPage = ({ currentUser }) => {
+  const location = useLocation();
   const [improvements, setImprovements] = useState([]);
   const [showSuggestionForm, setShowSuggestionForm] = useState(false);
   const [editingSuggestionId, setEditingSuggestionId] = useState(null);
@@ -54,6 +56,28 @@ const AdminImprovementsPage = ({ currentUser }) => {
     });
     setShowSuggestionForm(true);
   };
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const shouldOpenNewForm = queryParams.get('new') === '1';
+    if (shouldOpenNewForm) {
+      setEditingSuggestionId(null);
+      resetSuggestionForm();
+      setShowSuggestionForm(true);
+      return;
+    }
+
+    const editParam = queryParams.get('edit');
+    if (!editParam) return;
+
+    const suggestionId = Number(editParam);
+    if (!Number.isFinite(suggestionId)) return;
+
+    const suggestionToEdit = improvements.find((item) => item.id === suggestionId);
+    if (!suggestionToEdit) return;
+
+    startEditingSuggestion(suggestionToEdit);
+  }, [location.search, improvements]);
 
   const cancelEditing = () => {
     setEditingSuggestionId(null);
@@ -334,7 +358,7 @@ const AdminImprovementsPage = ({ currentUser }) => {
                   </button>
                   <button
                     type="button"
-                    className="btn btn-secondary btn-sm delete-action"
+                    className="btn btn-delete-light btn-sm"
                     onClick={() => handleDeleteSuggestion(imp)}
                   >
                     Delete

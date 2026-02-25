@@ -8,8 +8,10 @@ import HomePage from './pages/HomePage/HomePage';
 import IdeasPage from './pages/IdeasPage/IdeasPage';
 import ReportPage from './pages/ReportPage/ReportPage';
 import AdminPanel from './pages/AdminPanel/AdminPanel';
+import AdminImprovementsPage from './pages/AdminImprovementsPage/AdminImprovementsPage';
 import Dashboard from './pages/Dashboard/Dashboard';
 import DecorPage from './pages/DecorPage/DecorPage';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 import './App.css';
 
 const LoginRequiredAlert = ({ title, description, onLoginClick }) => (
@@ -144,6 +146,12 @@ function App() {
               } 
             />
             <Route 
+              path="/admin/suggestions" 
+              element={
+                user?.isAdmin ? <AdminImprovementsPage currentUser={user} /> : <HomePage />
+              } 
+            />
+            <Route 
               path="/dashboard" 
               element={
                 user ? (
@@ -156,6 +164,20 @@ function App() {
                   />
                 )
               } 
+            />
+            <Route
+              path="/profile"
+              element={
+                user ? (
+                  <ProfilePage user={user} />
+                ) : (
+                  <LoginRequiredAlert
+                    title="Login Required for Profile"
+                    description="Please sign in to view your profile details."
+                    onLoginClick={openLogin}
+                  />
+                )
+              }
             />
           </Routes>
         </main>

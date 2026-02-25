@@ -1,4 +1,5 @@
 import { improvementData } from '../data/improvementData';
+import { getAdminImprovements } from '../utils/storage';
 
 const USERS_KEY = 'GriHom_users';
 const REPORTS_KEY = 'GriHom_reports';
@@ -152,7 +153,37 @@ class ApiService {
   async getImprovements(filters = {}) {
     await this.delay(80);
 
-    return improvementData.filter((item) => {
+    const budgetByCost = {
+      Low: '₹10,000 - ₹50,000',
+      Medium: '₹50,000 - ₹2,00,000',
+      High: '₹2,00,000+'
+    };
+
+    const adminImprovements = getAdminImprovements().map((item) => ({
+      id: `admin-${item.id}`,
+      title: item.title,
+      description: item.description,
+      cost: item.cost || 'Low',
+      effort: item.effort || 'Medium',
+      roi: item.roi || 'High',
+      impact: item.impact || 0,
+      duration: item.duration || 'Flexible',
+      room: item.room || 'All',
+      tags: ['admin-suggestion'],
+      indianSpecific: true,
+      budgetRange: item.budgetRange || budgetByCost[item.cost] || budgetByCost.Low,
+      imageUrl: item.imageUrl || '',
+      source: 'admin'
+    }));
+
+    const normalizedBaseImprovements = improvementData.map((item) => ({
+      ...item,
+      source: item.source || 'default'
+    }));
+
+    const allImprovements = [...adminImprovements, ...normalizedBaseImprovements];
+
+    return allImprovements.filter((item) => {
       const roomMatch = !filters.room || item.room === filters.room;
       const costMatch = !filters.cost || item.cost === filters.cost;
       const effortMatch = !filters.effort || item.effort === filters.effort;
