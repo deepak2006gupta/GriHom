@@ -1,15 +1,14 @@
 {
   "files": {
-    "main.css": "/GriHom/static/css/main.c3092f8e.css",
-    "main.js": "/GriHom/static/js/main.75ec1c5e.js",
-    "static/media/home-hero.svg": "/GriHom/static/media/home-hero.182014b73e87be869c1c975ceab3351f.svg",
-    "static/media/grihom-logo.svg": "/GriHom/static/media/grihom-logo.9ceb19a46a3da8cf1024afae70b4a45c.svg",
+    "main.css": "/GriHom/static/css/main.cfed1c1a.css",
+    "main.js": "/GriHom/static/js/main.32d542a2.js",
+    "static/media/home-hero.svg": "/GriHom/static/media/home-hero.1a29fa37292e179bc8a5411e54241466.svg",
     "index.html": "/GriHom/index.html",
-    "main.c3092f8e.css.map": "/GriHom/static/css/main.c3092f8e.css.map",
-    "main.75ec1c5e.js.map": "/GriHom/static/js/main.75ec1c5e.js.map"
+    "main.cfed1c1a.css.map": "/GriHom/static/css/main.cfed1c1a.css.map",
+    "main.32d542a2.js.map": "/GriHom/static/js/main.32d542a2.js.map"
   },
   "entrypoints": [
-    "static/css/main.c3092f8e.css",
-    "static/js/main.75ec1c5e.js"
+    "static/css/main.cfed1c1a.css",
+    "static/js/main.32d542a2.js"
   ]
 }
