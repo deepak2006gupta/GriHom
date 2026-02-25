@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
 import homeHeroIllustration from '../../assets/home-hero.svg';
-import gmailLogo from '../../assets/gmail-logo.png';
+import logo from '../../assets/grihom-logo.svg';
 
 const HomePage = () => {
   const stats = [
@@ -16,45 +16,37 @@ const HomePage = () => {
     {
       quote: 'The report helped us prioritize kitchen and lighting upgrades. We got better offers within 2 weeks.',
       person: 'Anusha R.',
-      location: 'Vijayawada',
-      email: 'anusha.r@gmail.com'
+      location: 'Vijayawada'
     },
     {
       quote: 'Simple, practical, and budget-aware. We knew exactly what to fix before listing our flat.',
       person: 'Rahul & Neha',
-      location: 'Hyderabad',
-      email: 'rahul.neha@gmail.com'
+      location: 'Hyderabad'
     },
     {
       quote: 'Great quick-win ideas. Even small bathroom updates improved buyer interest a lot.',
       person: 'Srinivas K.',
-      location: 'Bengaluru',
-      email: 'srinivas.k@gmail.com'
+      location: 'Bengaluru'
     }
   ];
 
   const faqs = [
     {
       question: 'How accurate is this valuation guidance?',
-      answer: 'Recommendations are based on local improvement data and typical market trends. Use it as a practical decision guide before final pricing.'
+      answer: 'Recommendations are based on local improvement data and typical market trends. Use it as a practical decision guide before final pricing. Additionally, we continuously update our database to reflect the latest market conditions, ensuring you get the most relevant advice.'
     },
     {
       question: 'Is the report free?',
-      answer: 'Yes, your personalized report is free to generate and takes only a few minutes.'
+      answer: 'Yes, your personalized report is free to generate and takes only a few minutes. There are no hidden charges, and you can generate multiple reports for different properties.'
     },
     {
       question: 'Do I need a site visit?',
-      answer: 'No site visit is needed for the initial report. You can refine plans later with contractors if required.'
-    },
-    {
-      question: 'Can I customize the recommendations?',
-      answer: 'Yes, you can customize the recommendations based on your preferences and budget.'
-    },
-    {
-      question: 'How do I get started?',
-      answer: 'Simply sign up, provide your property details, and generate your personalized report.'
+      answer: 'No site visit is needed for the initial report. You can refine plans later with contractors if required. However, if you wish, we can connect you with trusted local professionals for an on-site consultation.'
     }
   ];
+
+  // Function to get the first initial
+  const getInitial = (name) => name.charAt(0).toUpperCase();
 
   return (
     <div className="homepage">
@@ -135,13 +127,19 @@ const HomePage = () => {
         <div className="container">
           <div className="section-header">
             <h2>What Homeowners Say</h2>
+            <img src={logo} alt="Logo" className="logo" /> {/* Updated logo reference */}
           </div>
           <div className="testimonials-grid">
             {testimonials.map((testimonial, index) => (
               <article key={index} className="testimonial-card">
-                <p>“{testimonial.quote}”</p>
-                <h3>{testimonial.person}</h3>
-                <span>{testimonial.location}</span>
+                <div className="avatar" aria-hidden="true">
+                  {getInitial(testimonial.person)}
+                </div>
+                <div className="testimonial-content">
+                  <p>“{testimonial.quote}”</p>
+                  <h3>{testimonial.person}</h3>
+                  <span>{testimonial.location}</span>
+                </div>
               </article>
             ))}
           </div>
