@@ -42,6 +42,18 @@ const HomePage = () => {
     {
       question: 'Do I need a site visit?',
       answer: 'No site visit is needed for the initial report. You can refine plans later with contractors if required. However, if you wish, we can connect you with trusted local professionals for an on-site consultation.'
+    },
+    {
+      question: 'Can I trust the contractors you recommend?',
+      answer: 'We carefully vet all contractors in our network to ensure they meet high standards of quality and reliability. You can also review ratings and feedback from other homeowners before making a decision.'
+    },
+    {
+      question: 'How long does it take to see results?',
+      answer: 'The timeline depends on the scope of your improvements. Simple upgrades can show results in weeks, while larger projects may take a few months. Our team is here to guide you every step of the way.'
+    },
+    {
+      question: 'What if I have a unique property?',
+      answer: 'Our recommendations are tailored to your property’s unique features and location. If you have specific concerns, our experts are available to provide personalized advice.'
     }
   ];
 
