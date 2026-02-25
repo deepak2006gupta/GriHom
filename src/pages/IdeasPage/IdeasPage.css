@@ -28,7 +28,7 @@
   border: 1px solid var(--border-color);
   border-radius: 999px;
   padding: 0.52rem 0.9rem;
-  background: var(--surface-elevated);
+  background: #fff;
   color: var(--text-secondary);
   font-weight: 600;
   font-size: 0.85rem;
@@ -38,46 +38,13 @@
 .idea-chip.active {
   background: var(--surface-soft);
   color: var(--primary-color);
-  border-color: var(--chip-border);
+  border-color: #bfdbfe;
 }
 
 .ideas-count {
   margin: 1rem 0 1.2rem;
   color: var(--text-secondary);
   font-weight: 500;
-}
-
-.ideas-toolbar {
-  display: grid;
-  grid-template-columns: 1.8fr 1fr auto;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  margin-top: 0.6rem;
-}
-
-.toolbar-group {
-  display: grid;
-  gap: 0.35rem;
-}
-
-.toolbar-group label {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  font-weight: 600;
-}
-
-.toolbar-group input,
-.toolbar-group select {
-  width: 100%;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 0.58rem 0.7rem;
-  background: var(--surface-elevated);
-}
-
-.favorite-toggle {
-  justify-self: start;
-  align-self: end;
 }
 
 .budget-section {
@@ -136,8 +103,8 @@
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  border: 1px solid var(--chip-border);
-  background: var(--surface-soft);
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
   display: grid;
   place-items: center;
   font-size: 1.1rem;
@@ -146,24 +113,6 @@
 .idea-card h3 {
   font-size: 1.03rem;
   margin: 0;
-}
-
-.favorite-btn {
-  width: fit-content;
-  border: 1px solid var(--border-color);
-  border-radius: 999px;
-  background: var(--surface-elevated);
-  color: var(--text-secondary);
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 0.25rem 0.62rem;
-  cursor: pointer;
-}
-
-.favorite-btn.active {
-  background: var(--surface-soft);
-  color: var(--primary-color);
-  border-color: var(--chip-border);
 }
 
 .idea-description {
@@ -201,8 +150,8 @@
 }
 
 .room-tag {
-  background: var(--rank-bg);
-  color: var(--rank-text);
+  background: #e0e7ff;
+  color: #3730a3;
   border-radius: 999px;
   padding: 0.2rem 0.65rem;
   font-size: 0.78rem;
@@ -224,15 +173,6 @@
 }
 
 @media (max-width: 700px) {
-  .ideas-toolbar {
-    grid-template-columns: 1fr;
-  }
-
-  .favorite-toggle {
-    width: fit-content;
-    justify-self: start;
-  }
-
   .budget-section-header {
     flex-direction: column;
     align-items: flex-start;

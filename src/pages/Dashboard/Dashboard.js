@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getUserReports } from '../../utils/storage';
 import './Dashboard.css';
 
 const Dashboard = ({ user }) => {
-  const navigate = useNavigate();
   const [savedReports, setSavedReports] = useState([]);
   const [activeTab, setActiveTab] = useState('overview');
-  const [expandedReportId, setExpandedReportId] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -20,24 +17,6 @@ const Dashboard = ({ user }) => {
     const total = savedReports.reduce((sum, report) => sum + report.valorScore, 0);
     return Math.round(total / savedReports.length);
   };
-
-  const handleDeleteReport = (reportId) => {
-    const confirmed = window.confirm('Delete this report from your history?');
-    if (!confirmed) return;
-
-    const updated = savedReports.filter((report) => report.id !== reportId);
-    localStorage.setItem('GriHom_reports', JSON.stringify(updated));
-    setSavedReports(updated);
-    if (expandedReportId === reportId) {
-      setExpandedReportId(null);
-    }
-  };
-
-  const toggleReportPreview = (reportId) => {
-    setExpandedReportId((prev) => (prev === reportId ? null : reportId));
-  };
-
-  const progressValue = Math.min(savedReports.length * 20, 100);
 
   return (
     <div className="dashboard">
@@ -117,18 +96,13 @@ const Dashboard = ({ user }) => {
 
                 <div className="quick-actions classic-card">
                   <h3>Quick Actions</h3>
-                  <button className="action-btn" onClick={() => navigate('/report')}>
+                  <button className="action-btn">
                     🏠 Generate New Report
                   </button>
-                  <button className="action-btn" onClick={() => navigate('/ideas')}>
+                  <button className="action-btn">
                     💡 Browse Ideas
                   </button>
-                  {user?.isAdmin && (
-                    <button className="action-btn" onClick={() => navigate('/admin/suggestions')}>
-                      💡 Suggestions
-                    </button>
-                  )}
-                  <button className="action-btn" onClick={() => setActiveTab('reports')}>
+                  <button className="action-btn">
                     📊 Compare Reports
                   </button>
                 </div>
@@ -138,7 +112,6 @@ const Dashboard = ({ user }) => {
             {activeTab === 'reports' && (
               <div className="reports-list classic-card">
                 <h3>All Your Reports</h3>
-                {savedReports.length === 0 && <p className="empty-state">No reports yet. Generate your first report.</p>}
                 {savedReports.map(report => (
                   <div key={report.id} className="report-item">
                     <div className="report-item-main">
@@ -153,49 +126,11 @@ const Dashboard = ({ user }) => {
                       </div>
                     </div>
                     <div className="dashboard-report-actions">
-                      <button
-                        className="btn btn-secondary"
-                        onClick={() => toggleReportPreview(report.id)}
-                      >
-                        {expandedReportId === report.id ? 'Hide' : 'View'}
-                      </button>
-                      <button
-                        className="btn btn-text"
-                        onClick={() => handleDeleteReport(report.id)}
-                      >
-                        Delete
-                      </button>
+                      <button className="btn btn-secondary">View</button>
+                      <button className="btn btn-text">Delete</button>
                     </div>
-
-                    {expandedReportId === report.id && (
-                      <div className="report-expanded classic-card">
-                        <p><strong>Goal:</strong> {report.propertyData.goal}</p>
-                        <p><strong>Budget:</strong> {report.propertyData.budget}</p>
-                        <p><strong>Location:</strong> {report.propertyData.location}</p>
-                        <p><strong>Top Suggestions:</strong></p>
-                        <ul>
-                          {report.recommendations.slice(0, 3).map((item) => (
-                            <li key={item.id}>{item.title}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
                   </div>
                 ))}
-              </div>
-            )}
-
-            {activeTab === 'progress' && (
-              <div className="progress-panel classic-card">
-                <h3>Improvement Journey Progress</h3>
-                <p className="progress-copy">Your progress grows as you generate more reports and compare plans.</p>
-                <div className="progress-track" role="progressbar" aria-valuenow={progressValue} aria-valuemin="0" aria-valuemax="100">
-                  <div className="progress-fill" style={{ width: `${progressValue}%` }} />
-                </div>
-                <div className="progress-meta">
-                  <span>{progressValue}% complete</span>
-                  <span>{savedReports.length} reports created</span>
-                </div>
               </div>
             )}
           </div>

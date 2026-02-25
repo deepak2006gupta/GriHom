@@ -1,20 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import grihomLogo from '../../assets/grihom-logo.svg';
 import './Header.css';
 
-const Header = ({ user, onLoginClick, onLogout, theme, onToggleTheme }) => {
+const Header = ({ user, onLoginClick, onLogout }) => {
   const location = useLocation();
   const [showMenu, setShowMenu] = useState(false);
   const profileMenuRef = useRef(null);
   const userInitial = user?.name ? user.name.charAt(0).toUpperCase() : 'U';
-
-  const closeMenu = () => setShowMenu(false);
-
-  const handleLogoutClick = () => {
-    closeMenu();
-    onLogout();
-  };
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -35,10 +27,7 @@ const Header = ({ user, onLoginClick, onLogout, theme, onToggleTheme }) => {
       <nav className="navbar">
 
         <div className="nav-brand">
-          <Link to="/" className="brand-link">
-            <img src={grihomLogo} alt="GriHom logo" className="brand-logo" />
-            <span>GriHom</span>
-          </Link>
+          <Link to="/">GriHom</Link>
         </div>
 
         <ul className="nav-links">
@@ -49,6 +38,9 @@ const Header = ({ user, onLoginClick, onLogout, theme, onToggleTheme }) => {
             <Link to="/ideas" className={location.pathname === '/ideas' ? 'active' : ''}>Ideas</Link>
           </li>
           <li>
+          <Link to="/decor" className={location.pathname === '/decor' ? 'active' : ''}>✨ Decor</Link>
+          </li>
+          <li>
             <Link
               to="/report"
               className={`${location.pathname === '/report' ? 'active' : ''} nav-report-link`}
@@ -56,12 +48,6 @@ const Header = ({ user, onLoginClick, onLogout, theme, onToggleTheme }) => {
               Get Report
             </Link>
           </li>
-
-          {user && (
-            <li>
-              <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>Dashboard</Link>
-            </li>
-          )}
 
           {user?.isAdmin && (
             <li>
@@ -71,16 +57,6 @@ const Header = ({ user, onLoginClick, onLogout, theme, onToggleTheme }) => {
         </ul>
 
         <div className="nav-actions">
-          <button
-            type="button"
-            className="theme-toggle-btn"
-            onClick={onToggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-          >
-            {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
-          </button>
-
           {!user ? (
             <button onClick={onLoginClick} className="btn btn-primary">
               🔑 Sign In
@@ -99,9 +75,9 @@ const Header = ({ user, onLoginClick, onLogout, theme, onToggleTheme }) => {
 
               {showMenu && (
                 <div className="kebab-dropdown">
-                  <Link to="/profile" className="kebab-item" onClick={closeMenu}>👤 Profile</Link>
-                  <Link to="/report" className="kebab-item" onClick={closeMenu}>🏠 New Report</Link>
-                  <button onClick={handleLogoutClick} className="kebab-item logout">🚪 Sign Out</button>
+                  <Link to="/dashboard" className="kebab-item">📊 Dashboard</Link>
+                  <Link to="/report" className="kebab-item">🏠 New Report</Link>
+                  <button onClick={onLogout} className="kebab-item logout">🚪 Sign Out</button>
                 </div>
               )}
             </div>
