@@ -6,6 +6,28 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+## Deployment Build File
+
+This project includes a deployment build file at [build.ps1](build.ps1).
+
+- Build only:
+
+```powershell
+.\build.ps1
+```
+
+- Build and deploy to GitHub Pages:
+
+```powershell
+.\build.ps1 -Deploy
+```
+
+- Build/deploy without reinstalling dependencies:
+
+```powershell
+.\build.ps1 -SkipInstall -Deploy
+```
+
 ### `npm start`
 
 Runs the app in the development mode.\
