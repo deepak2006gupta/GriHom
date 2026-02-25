@@ -59,6 +59,37 @@ export const saveAdminImprovement = (improvement) => {
   return newImprovement;
 };
 
+export const updateAdminImprovement = (improvementId, updates) => {
+  const existingImprovements = getAdminImprovements();
+  let updatedImprovement = null;
+
+  const updatedImprovements = existingImprovements.map((improvement) => {
+    if (improvement.id !== improvementId) return improvement;
+
+    updatedImprovement = {
+      ...improvement,
+      ...updates,
+      id: improvement.id,
+      updatedAt: new Date().toISOString()
+    };
+
+    return updatedImprovement;
+  });
+
+  localStorage.setItem(ADMIN_IMPROVEMENTS_KEY, JSON.stringify(updatedImprovements));
+  return updatedImprovement;
+};
+
+export const deleteAdminImprovement = (improvementId) => {
+  const existingImprovements = getAdminImprovements();
+  const improvementToDelete = existingImprovements.find((improvement) => improvement.id === improvementId);
+  if (!improvementToDelete) return null;
+
+  const updatedImprovements = existingImprovements.filter((improvement) => improvement.id !== improvementId);
+  localStorage.setItem(ADMIN_IMPROVEMENTS_KEY, JSON.stringify(updatedImprovements));
+  return improvementToDelete;
+};
+
 export const getAdminImprovementHistory = () => {
   return JSON.parse(localStorage.getItem(ADMIN_IMPROVEMENT_HISTORY_KEY) || '[]');
 };

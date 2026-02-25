@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { getAdminImprovements, saveAdminImprovement, saveAdminImprovementHistoryEntry } from '../../utils/storage';
+import {
+  deleteAdminImprovement,
+  getAdminImprovements,
+  saveAdminImprovement,
+  saveAdminImprovementHistoryEntry,
+  updateAdminImprovement
+} from '../../utils/storage';
 import './AdminImprovementsPage.css';
 
 const AdminImprovementsPage = ({ currentUser }) => {
   const [improvements, setImprovements] = useState([]);
   const [showSuggestionForm, setShowSuggestionForm] = useState(false);
+  const [editingSuggestionId, setEditingSuggestionId] = useState(null);
   const [newSuggestion, setNewSuggestion] = useState({
     title: '',
     description: '',
@@ -33,6 +40,27 @@ const AdminImprovementsPage = ({ currentUser }) => {
     });
   };
 
+  const startEditingSuggestion = (suggestion) => {
+    setEditingSuggestionId(suggestion.id);
+    setNewSuggestion({
+      title: suggestion.title || '',
+      description: suggestion.description || '',
+      room: suggestion.room || 'All',
+      cost: suggestion.cost || 'Low',
+      effort: suggestion.effort || 'Medium',
+      roi: suggestion.roi || 'High',
+      impact: suggestion.impact || 0,
+      imageUrl: suggestion.imageUrl || ''
+    });
+    setShowSuggestionForm(true);
+  };
+
+  const cancelEditing = () => {
+    setEditingSuggestionId(null);
+    resetSuggestionForm();
+    setShowSuggestionForm(false);
+  };
+
   const handleImageUpload = (event) => {
     const file = event.target.files?.[0];
     if (!file) {
@@ -54,8 +82,30 @@ const AdminImprovementsPage = ({ currentUser }) => {
     reader.readAsDataURL(file);
   };
 
-  const handleAddSuggestion = (e) => {
+  const handleSaveSuggestion = (e) => {
     e.preventDefault();
+
+    if (editingSuggestionId) {
+      const updatedSuggestion = updateAdminImprovement(editingSuggestionId, {
+        ...newSuggestion,
+        updatedBy: currentUser?.name || 'Admin'
+      });
+
+      if (!updatedSuggestion) return;
+
+      saveAdminImprovementHistoryEntry({
+        action: 'Edited suggestion',
+        details: `${updatedSuggestion.title} (${updatedSuggestion.room})`,
+        adminName: currentUser?.name || 'Admin',
+        adminEmail: currentUser?.email || ''
+      });
+
+      setImprovements((prev) =>
+        prev.map((item) => (item.id === editingSuggestionId ? updatedSuggestion : item))
+      );
+      cancelEditing();
+      return;
+    }
 
     const savedSuggestion = saveAdminImprovement({
       ...newSuggestion,
@@ -74,6 +124,38 @@ const AdminImprovementsPage = ({ currentUser }) => {
     setShowSuggestionForm(false);
   };
 
+  const handleDeleteSuggestion = (suggestion) => {
+    const shouldDelete = window.confirm(`Delete suggestion "${suggestion.title}"?`);
+    if (!shouldDelete) return;
+
+    const deletedSuggestion = deleteAdminImprovement(suggestion.id);
+    if (!deletedSuggestion) return;
+
+    saveAdminImprovementHistoryEntry({
+      action: 'Deleted suggestion',
+      details: `${deletedSuggestion.title} (${deletedSuggestion.room})`,
+      adminName: currentUser?.name || 'Admin',
+      adminEmail: currentUser?.email || ''
+    });
+
+    setImprovements((prev) => prev.filter((item) => item.id !== suggestion.id));
+
+    if (editingSuggestionId === suggestion.id) {
+      cancelEditing();
+    }
+  };
+
+  const handleToggleSuggestionForm = () => {
+    if (showSuggestionForm) {
+      cancelEditing();
+      return;
+    }
+
+    setEditingSuggestionId(null);
+    resetSuggestionForm();
+    setShowSuggestionForm(true);
+  };
+
   return (
     <div className="admin-improvements-page">
       <div className="admin-improvements-header">
@@ -85,13 +167,13 @@ const AdminImprovementsPage = ({ currentUser }) => {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => setShowSuggestionForm((prev) => !prev)}
+          onClick={handleToggleSuggestionForm}
         >
           {showSuggestionForm ? 'Close Form' : 'Add New Suggestion'}
         </button>
 
         {showSuggestionForm && (
-          <form className="suggestion-form" onSubmit={handleAddSuggestion}>
+          <form className="suggestion-form" onSubmit={handleSaveSuggestion}>
             <div className="form-row">
               <div className="form-group">
                 <label>Title</label>
@@ -136,11 +218,20 @@ const AdminImprovementsPage = ({ currentUser }) => {
                 onChange={handleImageUpload}
               />
               {newSuggestion.imageUrl && (
-                <img
-                  src={newSuggestion.imageUrl}
-                  alt="Suggestion preview"
-                  className="suggestion-image-preview"
-                />
+                <div className="suggestion-image-preview-wrapper">
+                  <img
+                    src={newSuggestion.imageUrl}
+                    alt="Suggestion preview"
+                    className="suggestion-image-preview"
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => setNewSuggestion((prev) => ({ ...prev, imageUrl: '' }))}
+                  >
+                    Remove Image
+                  </button>
+                </div>
               )}
             </div>
 
@@ -190,7 +281,20 @@ const AdminImprovementsPage = ({ currentUser }) => {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary">Save Suggestion</button>
+            <div className="suggestion-form-actions">
+              <button type="submit" className="btn btn-primary">
+                {editingSuggestionId ? 'Update Suggestion' : 'Save Suggestion'}
+              </button>
+              {editingSuggestionId && (
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={cancelEditing}
+                >
+                  Cancel Edit
+                </button>
+              )}
+            </div>
           </form>
         )}
       </div>
@@ -204,6 +308,13 @@ const AdminImprovementsPage = ({ currentUser }) => {
           <div className="improvements-list">
             {improvements.map((imp) => (
               <div key={imp.id} className="improvement-item">
+                {imp.imageUrl && (
+                  <img
+                    src={imp.imageUrl}
+                    alt={imp.title}
+                    className="improvement-item-image"
+                  />
+                )}
                 <h3>{imp.title}</h3>
                 <p>{imp.description}</p>
                 <div className="improvement-meta">
@@ -211,7 +322,23 @@ const AdminImprovementsPage = ({ currentUser }) => {
                   <span className="meta-tag cost">{imp.cost} Cost</span>
                   <span className="meta-tag roi">{imp.roi} ROI</span>
                   <span className="meta-tag impact">+{imp.impact}% Value</span>
-                  <span className="meta-tag">{new Date(imp.createdAt || imp.timestamp || Date.now()).toLocaleString()}</span>
+                  <span className="meta-tag">{new Date(imp.updatedAt || imp.createdAt || imp.timestamp || Date.now()).toLocaleString()}</span>
+                </div>
+                <div className="improvement-actions">
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => startEditingSuggestion(imp)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-sm delete-action"
+                    onClick={() => handleDeleteSuggestion(imp)}
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             ))}

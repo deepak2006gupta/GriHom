@@ -75,6 +75,25 @@
   border: 1px solid var(--border-color);
 }
 
+.suggestion-image-preview-wrapper {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+}
+
+.suggestion-form-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.btn-sm {
+  padding: 0.4rem 0.72rem;
+  font-size: 0.82rem;
+}
+
 .admin-improvements-list {
   padding: 1.2rem;
 }
@@ -113,6 +132,16 @@
   font-size: 0.9rem;
 }
 
+.improvement-item-image {
+  width: 100%;
+  max-width: 320px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 0.55rem;
+}
+
 .improvement-meta {
   display: flex;
   gap: 0.35rem;
@@ -145,6 +174,18 @@
 .meta-tag.impact {
   background: var(--tag-pink-bg);
   color: var(--tag-pink-text);
+}
+
+.improvement-actions {
+  margin-top: 0.7rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.delete-action {
+  border-color: var(--status-inactive-border);
+  color: var(--status-inactive-text);
 }
 
 @media (max-width: 768px) {
