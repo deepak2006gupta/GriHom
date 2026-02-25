@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface-soft);
+  background: #eef2ff;
   border-radius: 11px;
 }
 
@@ -78,7 +78,7 @@
 .tab-navigation {
   display: flex;
   gap: 0.35rem;
-  background: var(--surface-elevated);
+  background: #fff;
   padding: 0.4rem;
   border-radius: 12px;
   border: 1px solid var(--border-color);
@@ -100,11 +100,11 @@
 
 .tab-btn.active {
   background: linear-gradient(120deg, var(--primary-600), var(--secondary-color));
-  color: var(--on-primary);
+  color: white;
 }
 
 .tab-btn:hover:not(.active) {
-  background: var(--surface-hover);
+  background: #f8fafc;
 }
 
 .tab-content {
@@ -186,7 +186,7 @@
 .action-btn {
   padding: 0.75rem 0.9rem;
   border: 1px solid var(--border-color);
-  background: var(--surface-elevated);
+  background: white;
   border-radius: 11px;
   cursor: pointer;
   font-size: 1rem;
@@ -197,7 +197,7 @@
 
 .action-btn:hover {
   border-color: var(--primary-color);
-  background: var(--surface-hover);
+  background: #f8fafc;
   transform: translateX(2px);
 }
 
@@ -205,7 +205,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
   padding: 0.9rem 0.5rem;
   border-bottom: 1px solid var(--border-color);
   transition: all 0.3s ease;
@@ -239,60 +238,6 @@
 .dashboard-report-actions {
   display: flex;
   gap: 0.5rem;
-}
-
-.report-expanded {
-  width: 100%;
-  margin-top: 0.7rem;
-  padding: 0.8rem;
-  border: 1px solid var(--border-color);
-}
-
-.report-expanded p {
-  margin-bottom: 0.4rem;
-  color: var(--text-secondary);
-}
-
-.report-expanded ul {
-  margin-left: 1rem;
-  color: var(--text-primary);
-}
-
-.progress-panel {
-  padding: 1.1rem;
-}
-
-.progress-copy {
-  color: var(--text-secondary);
-  margin-bottom: 0.8rem;
-}
-
-.progress-track {
-  width: 100%;
-  height: 12px;
-  background: var(--surface-muted);
-  border-radius: 999px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(120deg, var(--primary-600), var(--secondary-color));
-  transition: width 0.3s ease;
-}
-
-.progress-meta {
-  margin-top: 0.6rem;
-  display: flex;
-  justify-content: space-between;
-  color: var(--text-secondary);
-  font-size: 0.87rem;
-}
-
-.empty-state {
-  color: var(--text-secondary);
-  margin-bottom: 0.8rem;
 }
 
 .btn-text {

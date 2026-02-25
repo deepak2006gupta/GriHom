@@ -1,117 +1,191 @@
-# Getting Started with Create React App
+# 🏠 GriHom — Smart Home Value Booster for Indian Homeowners
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> _"Don't just sell a house. Sell potential."_
 
-## Available Scripts
+GriHom is a **free, data-backed web app** that helps Indian homeowners identify the right home improvements to maximize property value before selling or renting — without overspending. Get a personalized **Valor Score**, see budget-aware upgrade ideas tailored to Indian homes, and track your improvement journey — all in one place.
 
-In the project directory, you can run:
+---
 
-## Deployment Build File
+## ✨ Why GriHom?
 
-This project includes a deployment build file at [build.ps1](build.ps1).
+Most home improvement tools are designed for Western markets. GriHom is built from the ground up for **Indian middle-class homes** — think 2BHK apartments in Hyderabad, independent houses in Vijayawada, or flats in Bengaluru. The recommendations reflect Indian buyer preferences, local brands (Asian Paints, Hettich, Hafele), and realistic budget ranges in INR.
 
-- Build only:
+| Feature | Description |
+|---|---|
+| 📊 Valor Score | A 0–100 score reflecting your home's improvement potential |
+| 💡 Smart Recommendations | Top 5 upgrades ranked by ROI, tailored to your budget |
+| 💰 Indian Price Ranges | Budgets in ₹ — from ₹8,000 quick-wins to ₹3L renovations |
+| 🏘️ Localized Insights | Considers Indian home types, locations, and buyer preferences |
+| 📁 Report History | Save, revisit, and compare all your generated reports |
+| 🔐 Auth System | Secure login/register with admin panel support |
 
-```powershell
-.\build.ps1
+---
+
+## 🚀 Live Demo
+
+🌐 **[View on GitHub Pages →](https://deepak-206.github.io/GriHom)**
+
+---
+
+## 📸 App Overview
+
+```
+/ ............... Home page with stats, testimonials, and FAQs
+/ideas .......... Browse all improvement ideas with filters
+/report ......... Generate your personalized Valor Report (login required)
+/dashboard ...... View your saved reports and track progress (login required)
+/admin .......... Admin panel for managing users and content
 ```
 
-- Build and deploy to GitHub Pages:
+---
 
-```powershell
-.\build.ps1 -Deploy
+## 🧰 Tech Stack
+
+- **React 19** — UI framework
+- **React Router v7** — Client-side routing
+- **CSS Modules** — Component-scoped styling
+- **LocalStorage** — Persistent report saving
+- **GitHub Pages** — Deployment
+
+No backend. No database. Just fast, client-side logic and a clean API service layer ready to be wired up.
+
+---
+
+## ⚙️ Getting Started
+
+### Prerequisites
+
+- Node.js (v18+)
+- npm
+
+### Installation
+
+```bash
+# Clone the repo
+git clone https://github.com/deepak-206/GriHom.git
+cd GriHom
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
 ```
 
-- Build/deploy without reinstalling dependencies:
+Open [http://localhost:3000](http://localhost:3000) in your browser. The page reloads on file changes.
 
-```powershell
-.\build.ps1 -SkipInstall -Deploy
+### Build for Production
+
+```bash
+npm run build
 ```
 
-### `npm start`
+Outputs an optimized build to the `/build` folder, ready for deployment.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Deploy to GitHub Pages
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+npm run deploy
+```
 
-### `npm test`
+This runs the build and publishes to `gh-pages` automatically.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 📂 Project Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+src/
+├── assets/              # SVG illustrations
+├── components/
+│   ├── Auth/            # Login & Register modals
+│   └── Header/          # Navigation bar
+├── data/
+│   └── improvementData.js   # All improvement ideas with metadata
+├── pages/
+│   ├── HomePage/        # Landing page with stats, testimonials, FAQs
+│   ├── IdeasPage/       # Filterable improvement idea browser
+│   ├── ReportPage/      # Valor Score report generator
+│   ├── Dashboard/       # User report history and tracking
+│   └── AdminPanel/      # Admin management view
+├── services/
+│   └── api.js           # Auth and API service layer
+├── utils/
+│   ├── storage.js       # LocalStorage helper for reports
+│   └── valorCalculator.js   # Score + recommendation engine
+└── App.js               # Root component with routing and auth state
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🏗️ How the Valor Score Works
 
-### `npm run eject`
+The **Valor Score** (0–100) is computed by `valorCalculator.js` based on:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **Property age** — Newer homes start with a higher base
+- **Location tier** — Premium city zones get a score boost
+- **Improvements applied** — Each upgrade contributes an `impact` value
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Recommendations are then generated by:
+1. Filtering improvements by your budget tier (Low / Medium / High)
+2. Sorting by ROI priority (High → Medium → Low)
+3. Returning the top 5 highest-impact upgrades
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 💡 Sample Improvement Ideas
 
-## Learn More
+| Improvement | Cost | ROI | Impact | Budget Range |
+|---|---|---|---|---|
+| Fresh Paint (Asian Paints) | Low | High | +8 | ₹15K–₹50K |
+| Modular Kitchen Upgrade | High | High | +20 | ₹1L–₹3L |
+| Western Toilet Upgrade | Medium | High | +12 | ₹25K–₹60K |
+| False Ceiling + LED Lights | Medium | Medium | +10 | ₹40K–₹80K |
+| Custom Wardrobe | Medium | High | +15 | ₹30K–₹80K |
+| Main Door Upgrade | Medium | Medium | +7 | ₹15K–₹40K |
+| Balcony Grill & Safety Nets | Low | Medium | +5 | ₹8K–₹20K |
+| RO Water Purifier | Low | Medium | +4 | ₹8K–₹20K |
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🔒 Auth & Roles
 
-### Code Splitting
+- **Guest** — Browse ideas, explore the home page
+- **User** — Generate reports, save to dashboard, view history
+- **Admin** — Access admin panel to manage users and data
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Authentication is handled via `apiService` (currently mock-ready; swap in a real backend endpoint as needed).
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🤝 Contributing
 
-### Making a Progressive Web App
+Contributions are welcome! Here's how to get started:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. Fork the repository
+2. Create a new branch: `git checkout -b feature/your-feature-name`
+3. Make your changes and commit: `git commit -m "feat: add your feature"`
+4. Push to your fork: `git push origin feature/your-feature-name`
+5. Open a Pull Request
 
-### Advanced Configuration
+### Ideas for Contribution
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Add more improvement ideas (especially for Tier-2 Indian cities)
+- Add real API integration for auth and data persistence
+- Build a comparison view for multiple reports
+- Add chart visualizations for score trends in the dashboard
+- Support for additional Indian languages
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 📄 License
 
-## Deploy on GitHub Pages (Automated)
+This project is open source and available under the [MIT License](LICENSE).
 
-This project includes a GitHub Actions workflow at `.github/workflows/deploy-github-pages.yml`.
+---
 
-### One-time GitHub setup
+## 👤 Author
 
-1. Push this project to a GitHub repository.
-2. In GitHub, open **Settings → Pages**.
-3. Set **Source** to **GitHub Actions**.
-5. Save.
+Built with ❤️ by **[Deepak](https://github.com/deepak-206)**
 
-### Deploy flow
-
-- Push to `main` (or `master`).
-- GitHub Actions will:
-	- install dependencies,
-	- build the app,
-	- add SPA fallback (`404.html`),
-	- publish the `build/` artifact to GitHub Pages.
-
-### Important
-
-- Keep the `homepage` value in `package.json` aligned with your GitHub repo URL:
-	- `https://<github-username>.github.io/<repo-name>`
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+> _"Helping every Indian homeowner make smarter, data-backed decisions — one improvement at a time."_

@@ -17,9 +17,9 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  background: var(--chip-bg);
-  color: var(--chip-text);
-  border: 1px solid var(--chip-border);
+  background: #e0e7ff;
+  color: #312e81;
+  border: 1px solid #c7d2fe;
   padding: 0.35rem 0.75rem;
   border-radius: 999px;
   font-size: 0.82rem;
@@ -56,7 +56,7 @@
 }
 
 .stat-item {
-  background: var(--surface-elevated);
+  background: #fff;
   border: 1px solid var(--border-color);
   border-radius: 14px;
   padding: 0.9rem;
@@ -100,7 +100,7 @@
   border-radius: 16px;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
-  background: var(--surface-elevated);
+  background: #fff;
 }
 
 .visual-card {
@@ -109,7 +109,7 @@
   padding: 1.2rem;
   border-radius: 18px;
   background: linear-gradient(135deg, #1e3a8a, #2563eb);
-  color: var(--on-primary);
+  color: #fff;
   box-shadow: var(--shadow-lg);
   display: grid;
   gap: 0.85rem;
@@ -162,7 +162,7 @@
 }
 
 .feature-card {
-  background: var(--surface-elevated);
+  background: #fff;
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 1.35rem;
@@ -201,13 +201,11 @@
 }
 
 .testimonial-card {
-  background: var(--surface-elevated);
+  background: #fff;
   border: 1px solid var(--border-color);
   border-radius: 16px;
   box-shadow: var(--shadow-sm);
   padding: 1rem;
-  display: flex;
-  align-items: center;
 }
 
 .testimonial-card p {
@@ -226,26 +224,6 @@
   font-size: 0.84rem;
 }
 
-.gmail-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-  vertical-align: middle;
-}
-
-.testimonial {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.testimonial blockquote {
-  font-style: italic;
-  margin: 0 1rem;
-  color: var(--text-secondary);
-}
-
 .faq-section {
   padding: 0.6rem 0 1.6rem;
 }
@@ -256,22 +234,24 @@
 }
 
 .faq-item {
-  background: var(--surface-elevated);
+  background: #fff;
   border: 1px solid var(--border-color);
   border-radius: 14px;
   box-shadow: var(--shadow-sm);
   padding: 0.7rem 0.9rem;
-  margin-bottom: 1.5rem;
 }
 
-.faq-item h3 {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+.faq-item summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text-primary);
+  list-style-position: inside;
 }
 
 .faq-item p {
+  margin-top: 0.45rem;
   color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
 .cta-section {
@@ -279,7 +259,7 @@
 }
 
 .cta-content {
-  background: var(--surface-elevated);
+  background: #fff;
   border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 2rem 1.25rem;
@@ -299,22 +279,6 @@
 
 .btn.large {
   padding: 0.95rem 1.5rem;
-}
-
-/* Add styles for circular profile logo */
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%; /* Ensure perfect circle */
-  background-color: #007bff;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-right: 1rem; /* Spacing between avatar and content */
-  margin-top: 0.5rem; /* Lower the position slightly */
 }
 
 @media (max-width: 900px) {

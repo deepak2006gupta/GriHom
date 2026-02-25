@@ -27,6 +27,7 @@ export const saveUserPreferences = (preferences) => {
 
 export const getUserPreferences = () => {
   return JSON.parse(localStorage.getItem('GriHom_preferences') || '{}');
+<<<<<<< HEAD
 };
 
 const THEME_KEY = 'GriHom_theme';
@@ -105,4 +106,6 @@ export const saveAdminImprovementHistoryEntry = (entry) => {
   existingHistory.unshift(historyEntry);
   localStorage.setItem(ADMIN_IMPROVEMENT_HISTORY_KEY, JSON.stringify(existingHistory));
   return historyEntry;
+=======
+>>>>>>> ae3a9aabfce30e6e1e749b07f7d8ff6760fc59c2
 };
