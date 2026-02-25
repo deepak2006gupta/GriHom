@@ -95,8 +95,7 @@ This project includes a GitHub Actions workflow at `.github/workflows/deploy-git
 
 1. Push this project to a GitHub repository.
 2. In GitHub, open **Settings → Pages**.
-3. Set **Source** to **Deploy from a branch**.
-4. Select branch **gh-pages** and folder **/(root)**.
+3. Set **Source** to **GitHub Actions**.
 5. Save.
 
 ### Deploy flow
@@ -106,7 +105,7 @@ This project includes a GitHub Actions workflow at `.github/workflows/deploy-git
 	- install dependencies,
 	- build the app,
 	- add SPA fallback (`404.html`),
-	- publish `build/` to `gh-pages`.
+	- publish the `build/` artifact to GitHub Pages.
 
 ### Important
 
