@@ -12,7 +12,8 @@ const AdminImprovementsPage = ({ currentUser }) => {
     cost: 'Low',
     effort: 'Medium',
     roi: 'High',
-    impact: 0
+    impact: 0,
+    imageUrl: ''
   });
 
   useEffect(() => {
@@ -27,8 +28,30 @@ const AdminImprovementsPage = ({ currentUser }) => {
       cost: 'Low',
       effort: 'Medium',
       roi: 'High',
-      impact: 0
+      impact: 0,
+      imageUrl: ''
     });
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      setNewSuggestion((prev) => ({ ...prev, imageUrl: '' }));
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setNewSuggestion((prev) => ({
+        ...prev,
+        imageUrl: typeof reader.result === 'string' ? reader.result : ''
+      }));
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleAddSuggestion = (e) => {
@@ -103,6 +126,22 @@ const AdminImprovementsPage = ({ currentUser }) => {
                 rows="3"
                 required
               />
+            </div>
+
+            <div className="form-group">
+              <label>Upload Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+              />
+              {newSuggestion.imageUrl && (
+                <img
+                  src={newSuggestion.imageUrl}
+                  alt="Suggestion preview"
+                  className="suggestion-image-preview"
+                />
+              )}
             </div>
 
             <div className="form-row">

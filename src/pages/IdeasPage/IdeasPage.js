@@ -192,6 +192,14 @@ const IdeasPage = () => {
               {sectionIdeas.map((improvement) => (
                 <article key={improvement.id} className="idea-card classic-card">
 
+                  {(improvement.imageUrl || improvement.image) && (
+                    <img
+                      src={improvement.imageUrl || improvement.image}
+                      alt={improvement.title}
+                      className="idea-card-image"
+                    />
+                  )}
+
                   <div className="idea-card-header">
                     <div className="idea-icon">
                       {roomIcons[improvement.room] || '🏡'}

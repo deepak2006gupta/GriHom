@@ -11,7 +11,8 @@ export const improvementData = [
     room: "All",
     tags: ["cosmetic", "quick-win", "diy-friendly"],
     indianSpecific: true,
-    budgetRange: "₹15,000 - ₹50,000"
+    budgetRange: "₹15,000 - ₹50,000",
+    imageUrl: "https://placehold.co/800x500?text=Fresh+Paint"
   },
   {
     id: 2,
@@ -25,7 +26,8 @@ export const improvementData = [
     room: "Kitchen",
     tags: ["renovation", "high-impact", "professional"],
     indianSpecific: true,
-    budgetRange: "₹1,00,000 - ₹3,00,000"
+    budgetRange: "₹1,00,000 - ₹3,00,000",
+    imageUrl: "https://placehold.co/800x500?text=Modular+Kitchen"
   },
   {
     id: 3,
@@ -39,7 +41,8 @@ export const improvementData = [
     room: "Bathroom",
     tags: ["modern", "premium", "professional"],
     indianSpecific: true,
-    budgetRange: "₹25,000 - ₹60,000"
+    budgetRange: "₹25,000 - ₹60,000",
+    imageUrl: "https://placehold.co/800x500?text=Bathroom+Upgrade"
   },
   {
     id: 4,
@@ -53,7 +56,8 @@ export const improvementData = [
     room: "Living Room",
     tags: ["modern", "lighting", "professional"],
     indianSpecific: true,
-    budgetRange: "₹40,000 - ₹80,000"
+    budgetRange: "₹40,000 - ₹80,000",
+    imageUrl: "https://placehold.co/800x500?text=False+Ceiling+LED"
   },
   {
     id: 5,
@@ -67,7 +71,8 @@ export const improvementData = [
     room: "Exterior",
     tags: ["safety", "essential", "quick"],
     indianSpecific: true,
-    budgetRange: "₹8,000 - ₹20,000"
+    budgetRange: "₹8,000 - ₹20,000",
+    imageUrl: "https://placehold.co/800x500?text=Balcony+Safety"
   },
   {
     id: 6,
@@ -81,7 +86,8 @@ export const improvementData = [
     room: "Kitchen",
     tags: ["essential", "health", "modern"],
     indianSpecific: true,
-    budgetRange: "₹8,000 - ₹20,000"
+    budgetRange: "₹8,000 - ₹20,000",
+    imageUrl: "https://placehold.co/800x500?text=Water+Purifier"
   },
   {
     id: 7,
@@ -95,7 +101,8 @@ export const improvementData = [
     room: "Bedroom",
     tags: ["storage", "space-saving", "professional"],
     indianSpecific: true,
-    budgetRange: "₹30,000 - ₹80,000"
+    budgetRange: "₹30,000 - ₹80,000",
+    imageUrl: "https://placehold.co/800x500?text=Wardrobe+Makeover"
   },
   {
     id: 8,
@@ -109,7 +116,8 @@ export const improvementData = [
     room: "Exterior",
     tags: ["security", "first-impression", "durable"],
     indianSpecific: true,
-    budgetRange: "₹15,000 - ₹40,000"
+    budgetRange: "₹15,000 - ₹40,000",
+    imageUrl: "https://placehold.co/800x500?text=Main+Door+Upgrade"
   }
 ];
 
