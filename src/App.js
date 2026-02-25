@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Login from './components/Auth/Login';
@@ -26,10 +26,27 @@ const LoginRequiredAlert = ({ title, description, onLoginClick }) => (
 
 function App() {
   const [user, setUser] = useState(null);
+  const [theme, setTheme] = useState('light');
   const [showAuth, setShowAuth] = useState(false);
   const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState('');
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('GriHom_theme');
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+      setTheme(savedTheme);
+      return;
+    }
+
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(prefersDark ? 'dark' : 'light');
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('GriHom_theme', theme);
+  }, [theme]);
 
   const handleLogin = async ({ email, password }) => {
     setAuthLoading(true);
@@ -87,6 +104,10 @@ function App() {
     setShowAuth(false);
   };
 
+  const toggleTheme = () => {
+    setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'));
+  };
+
   return (
     <Router basename={process.env.PUBLIC_URL || '/'}>
       <div className="App">
@@ -94,6 +115,8 @@ function App() {
           user={user} 
           onLoginClick={openLogin} 
           onLogout={handleLogout} 
+          theme={theme}
+          onThemeToggle={toggleTheme}
         />
         <main className="main-content">
           <Routes>

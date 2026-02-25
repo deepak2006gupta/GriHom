@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
 
-const Header = ({ user, onLoginClick, onLogout }) => {
+const Header = ({ user, onLoginClick, onLogout, theme, onThemeToggle }) => {
   const location = useLocation();
   const [showMenu, setShowMenu] = useState(false);
   const profileMenuRef = useRef(null);
@@ -57,6 +57,16 @@ const Header = ({ user, onLoginClick, onLogout }) => {
         </ul>
 
         <div className="nav-actions">
+          <button
+            type="button"
+            className="theme-toggle-btn"
+            onClick={onThemeToggle}
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          >
+            {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
+          </button>
+
           {!user ? (
             <button onClick={onLoginClick} className="btn btn-primary">
               🔑 Sign In
