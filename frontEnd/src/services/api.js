@@ -33,10 +33,10 @@ class ApiService {
     return data;
   }
   
-  async login(email, password) {
+  async login(email, password, captchaToken) {
     return this.request('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password, captchaToken })
     });
   }
 

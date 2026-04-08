@@ -15,6 +15,7 @@ public class AuthService {
     private final UserRepository repo;
     private final PasswordEncoder encoder;
     private final JwtService jwtService;
+    private final CaptchaVerificationService captchaVerificationService;
 
     public AuthResponse register(User user) {
 
@@ -40,7 +41,9 @@ public class AuthService {
                 .build();
     }
 
-    public AuthResponse login(String email, String password) {
+    public AuthResponse login(String email, String password, String captchaToken, String clientIp) {
+
+        captchaVerificationService.verifyOrThrow(captchaToken, clientIp);
 
         User user = repo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));

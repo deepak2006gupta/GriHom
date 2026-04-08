@@ -61,12 +61,12 @@ function App() {
   }, [theme]);
 
   // 🔥 LOGIN
-  const handleLogin = async ({ email, password }) => {
+  const handleLogin = async ({ email, password, captchaToken }) => {
     setAuthLoading(true);
     setAuthError('');
 
     try {
-      const res = await apiService.login(email, password);
+      const res = await apiService.login(email, password, captchaToken);
 
       localStorage.setItem("token", res.token);
       setUser({ token: res.token });

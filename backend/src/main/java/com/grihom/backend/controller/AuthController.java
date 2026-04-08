@@ -10,6 +10,7 @@ import com.grihom.backend.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -30,7 +31,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@Valid @RequestBody AuthRequest request) {
-        return service.login(request.getEmail(), request.getPassword());
+    public AuthResponse login(@Valid @RequestBody AuthRequest request, HttpServletRequest servletRequest) {
+        return service.login(
+                request.getEmail(),
+                request.getPassword(),
+                request.getCaptchaToken(),
+                servletRequest.getRemoteAddr()
+        );
     }
 }
