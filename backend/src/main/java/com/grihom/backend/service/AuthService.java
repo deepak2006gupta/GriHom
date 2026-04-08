@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.grihom.backend.model.User;
+import com.grihom.backend.dto.AuthResponse;
 import com.grihom.backend.repository.UserRepository;
 
 @Service
@@ -15,7 +16,7 @@ public class AuthService {
     private final PasswordEncoder encoder;
     private final JwtService jwtService;
 
-    public String register(User user) {
+    public AuthResponse register(User user) {
 
         // 🚨 Prevent duplicate users
         if (repo.findByEmail(user.getEmail()).isPresent()) {
@@ -24,13 +25,22 @@ public class AuthService {
 
         user.setPassword(encoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
+        user.setIsActive(true);
 
         repo.save(user);
 
-        return jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user.getEmail());
+        
+        return AuthResponse.builder()
+                .token(token)
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .isAdmin("ROLE_ADMIN".equals(user.getRole()))
+                .build();
     }
 
-    public String login(String email, String password) {
+    public AuthResponse login(String email, String password) {
 
         User user = repo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -38,7 +48,19 @@ public class AuthService {
         if (!encoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
+        
+        if (user.getIsActive() != null && !user.getIsActive()) {
+            throw new RuntimeException("Your account is inactive. Please contact an administrator.");
+        }
 
-        return jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user.getEmail());
+        
+        return AuthResponse.builder()
+                .token(token)
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .isAdmin("ROLE_ADMIN".equals(user.getRole()))
+                .build();
     }
 }

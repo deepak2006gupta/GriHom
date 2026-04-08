@@ -22,6 +22,7 @@ import com.grihom.backend.service.JwtService;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
+    private final com.grihom.backend.repository.UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -47,15 +48,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (email != null && jwtService.isTokenValid(token)
                 && SecurityContextHolder.getContext().getAuthentication() == null){
-                // 👉 Set authentication (no roles for now)
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                email,
-                                null,
-                                List.of()
-                        );
+                
+                com.grihom.backend.model.User user = userRepository.findByEmail(email).orElse(null);
+                
+                if (user != null) {
+                    List<org.springframework.security.core.authority.SimpleGrantedAuthority> authorities = 
+                        List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority(user.getRole()));
+                        
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    email,
+                                    null,
+                                    authorities
+                            );
 
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
 
         } catch (Exception e) {

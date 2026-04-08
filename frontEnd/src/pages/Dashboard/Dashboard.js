@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteUserReport, getUserReports, getPlannedImprovements, savePlannedImprovements } from '../../utils/storage';
+import { getPlannedImprovements, savePlannedImprovements } from '../../utils/storage';
 import apiService from '../../services/api';
 import './Dashboard.css';
 
@@ -14,7 +14,7 @@ const Dashboard = ({ user }) => {
 
   useEffect(() => {
     if (user) {
-      setSavedReports(getUserReports());
+      apiService.getReports().then(setSavedReports).catch(console.error);
       const planned = getPlannedImprovements();
       setPlannedImprovementIds(planned);
     }
@@ -38,12 +38,21 @@ const Dashboard = ({ user }) => {
     return Math.round(total / savedReports.length);
   };
 
-  const handleDeleteReport = (report) => {
+  const handleDeleteReport = async (report) => {
     const shouldDelete = window.confirm(`Delete report "${report.title}"?`);
     if (!shouldDelete) return;
 
-    const updatedReports = deleteUserReport(report.id);
-    setSavedReports(updatedReports);
+    try {
+      await apiService.deleteReport(report.id);
+      const updatedReports = await apiService.getReports();
+      setSavedReports(updatedReports);
+      if (selectedReport && selectedReport.id === report.id) {
+        setSelectedReport(null);
+        setActiveTab('reports');
+      }
+    } catch(e) {
+      console.error(e);
+    }
   };
 
   const handleRemovePlannedImprovement = (improvementId) => {
@@ -218,7 +227,7 @@ const Dashboard = ({ user }) => {
                 )}
               </div>
             )}
-9
+
             {activeTab === 'view-report' && selectedReport && (
               <div className="report-details classic-card">
                 <button 

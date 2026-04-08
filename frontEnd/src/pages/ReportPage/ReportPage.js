@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { generateRecommendations, calculateValorScore } from '../../utils/valorCalculator';
 import { improvementData } from '../../data/improvementData';
-import { saveUserReport, getUserReports } from '../../utils/storage';
+import apiService from '../../services/api';
 import './ReportPage.css';
 
 const stepLabels = ['Property basics', 'Condition', 'Planned budget', 'Contact'];
@@ -31,7 +31,7 @@ const ReportPage = ({ user }) => {
 
   useEffect(() => {
     if (user) {
-      setSavedReports(getUserReports());
+      apiService.getReports().then(setSavedReports).catch(console.error);
     }
   }, [user]);
 
@@ -100,7 +100,7 @@ const ReportPage = ({ user }) => {
     setReportSaved(false);
   };
 
-  const saveReport = () => {
+  const saveReport = async () => {
     const reportData = {
       propertyData,
       recommendations,
@@ -108,11 +108,16 @@ const ReportPage = ({ user }) => {
       title: `GriHom Report - ${new Date().toLocaleDateString()}`
     };
     
-    saveUserReport(reportData);
-    setSavedReports(getUserReports());
-    setReportSaved(true);
-    
-    setTimeout(() => setReportSaved(false), 3000);
+    try {
+      await apiService.createReport(reportData);
+      const updatedReports = await apiService.getReports();
+      setSavedReports(updatedReports);
+      setReportSaved(true);
+      
+      setTimeout(() => setReportSaved(false), 3000);
+    } catch (e) {
+      console.error("Failed to save report", e);
+    }
   };
 
   const calculateTotalInvestment = () => {
