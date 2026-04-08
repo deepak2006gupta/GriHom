@@ -1,45 +1,56 @@
-import axios from "axios";
+const API_URL = "http://localhost:8080/api";
 
-const API = axios.create({
-  baseURL: "http://localhost:8080/api",
-});
-
-// 🔥 Attach token automatically
-API.interceptors.request.use((req) => {
+const getHeaders = () => {
   const token = localStorage.getItem("token");
-
+  const headers = { "Content-Type": "application/json" };
   if (token) {
-    req.headers.Authorization = `Bearer ${token}`;
+    headers["Authorization"] = `Bearer ${token}`;
   }
-
-  return req;
-});
+  return headers;
+};
 
 class ApiService {
+
+  async request(endpoint, options = {}) {
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      ...options,
+      headers: {
+        ...getHeaders(),
+        ...options.headers
+      }
+    });
+    
+    let data;
+    try {
+      data = await response.json();
+    } catch (e) {
+      data = null;
+    }
+    
+    if (!response.ok) {
+      throw new Error(data?.message || data?.error || `HTTP error! status: ${response.status}`);
+    }
+    return data;
+  }
   
   async login(email, password) {
-    try {
-      const response = await API.post('/auth/login', { email, password });
-      return response.data;
-    } catch(err) {
-      throw new Error(err.response?.data?.message || err.message);
-    }
+    return this.request('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password })
+    });
   }
 
   async register(name, email, password) {
-    try {
-      const response = await API.post('/auth/register', { name, email, password });
-      return response.data;
-    } catch(err) {
-      throw new Error(err.response?.data?.message || err.message);
-    }
+    return this.request('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ name, email, password })
+    });
   }
 
   async getImprovements(filters = {}) {
     // Basic fetch without filters implemented on backend, 
     // filter on client side just like before if needed.
-    const response = await API.get('/improvements');
-    let allImprovements = response.data;
+    let allImprovements = await this.request('/improvements');
     
     // Filter
     return allImprovements.filter((item) => {
@@ -59,13 +70,15 @@ class ApiService {
         recommendations: JSON.stringify(reportData.recommendations)
     };
     
-    const response = await API.post('/reports', payload);
-    return response.data;
+    return this.request('/reports', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
   }
 
   async getReports() {
-    const response = await API.get('/reports');
-    return response.data.map(report => ({
+    const data = await this.request('/reports');
+    return data.map(report => ({
         ...report,
         timestamp: report.timestamp,
         propertyData: JSON.parse(report.propertyData),
@@ -74,32 +87,33 @@ class ApiService {
   }
   
   async deleteReport(id) {
-    await API.delete(`/reports/${id}`);
+    return this.request(`/reports/${id}`, { method: 'DELETE' });
   }
 
   async getAdminStats() {
-    const response = await API.get('/admin/stats');
-    return response.data;
+    return this.request('/admin/stats');
   }
 
   async getAdminUsers() {
-    const response = await API.get('/admin/users');
-    return response.data;
+    return this.request('/admin/users');
   }
 
   async updateUserRole(userId, isAdmin) {
-    const response = await API.put(`/admin/users/${userId}/role`, { isAdmin });
-    return response.data;
+    return this.request(`/admin/users/${userId}/role`, { 
+      method: 'PUT',
+      body: JSON.stringify({ isAdmin })
+    });
   }
 
   async updateUserStatus(userId, isActive) {
-    const response = await API.put(`/admin/users/${userId}/status`, { isActive });
-    return response.data;
+    return this.request(`/admin/users/${userId}/status`, { 
+      method: 'PUT',
+      body: JSON.stringify({ isActive })
+    });
   }
 
   async deleteUser(userId) {
-    const response = await API.delete(`/admin/users/${userId}`);
-    return response.data;
+    return this.request(`/admin/users/${userId}`, { method: 'DELETE' });
   }
 }
 

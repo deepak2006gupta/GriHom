@@ -7,8 +7,6 @@ import apiService from './services/api';
 import HomePage from './pages/HomePage/HomePage';
 import IdeasPage from './pages/IdeasPage/IdeasPage';
 import ReportPage from './pages/ReportPage/ReportPage';
-import AdminPanel from './pages/AdminPanel/AdminPanel';
-import AdminImprovementsPage from './pages/AdminImprovementsPage/AdminImprovementsPage';
 import Dashboard from './pages/Dashboard/Dashboard';
 import DecorPage from './pages/DecorPage/DecorPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';

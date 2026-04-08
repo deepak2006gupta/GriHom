@@ -40,4 +40,11 @@ export const ToastProvider = ({ children }) => {
   );
 };
 
-export const useToast = () => useContext(ToastContext);
+export const useToast = () => {
+  const context = useContext(ToastContext);
+  if (!context) {
+    console.warn("useToast was called outside of ToastProvider");
+    return { addToast: (msg, type) => console.log(`Toast fallback: [${type}] ${msg}`) };
+  }
+  return context;
+};
