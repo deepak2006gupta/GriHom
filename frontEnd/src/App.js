@@ -12,6 +12,7 @@ import AdminImprovementsPage from './pages/AdminImprovementsPage/AdminImprovemen
 import Dashboard from './pages/Dashboard/Dashboard';
 import DecorPage from './pages/DecorPage/DecorPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import { useToast } from './components/Toast/ToastContext';
 import './App.css';
 
 const LoginRequiredAlert = ({ title, description, onLoginClick }) => (
@@ -33,6 +34,8 @@ function App() {
   const [authMode, setAuthMode] = useState('login');
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState('');
+  
+  const { addToast } = useToast();
 
   // 🔥 Restore user from token on refresh
   useEffect(() => {
@@ -71,8 +74,10 @@ function App() {
       setUser({ token: res.token });
 
       setShowAuth(false);
+      addToast(`Welcome back, ${res.name}!`, 'success');
     } catch (error) {
       setAuthError(error.message || 'Failed to sign in.');
+      addToast(error.message || 'Failed to sign in.', 'error');
     } finally {
       setAuthLoading(false);
     }
@@ -90,8 +95,10 @@ function App() {
       setUser({ token: res.token });
 
       setShowAuth(false);
+      addToast('Account created successfully!', 'success');
     } catch (error) {
       setAuthError(error.message || 'Failed to register account.');
+      addToast(error.message || 'Failed to register account.', 'error');
     } finally {
       setAuthLoading(false);
     }
@@ -101,6 +108,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUser(null);
+    addToast('You have been logged out.', 'info');
   };
 
   const openLogin = () => {

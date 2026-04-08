@@ -18,13 +18,21 @@ API.interceptors.request.use((req) => {
 class ApiService {
   
   async login(email, password) {
-    const response = await API.post('/auth/login', { email, password });
-    return response.data;
+    try {
+      const response = await API.post('/auth/login', { email, password });
+      return response.data;
+    } catch(err) {
+      throw new Error(err.response?.data?.message || err.message);
+    }
   }
 
   async register(name, email, password) {
-    const response = await API.post('/auth/register', { name, email, password });
-    return response.data;
+    try {
+      const response = await API.post('/auth/register', { name, email, password });
+      return response.data;
+    } catch(err) {
+      throw new Error(err.response?.data?.message || err.message);
+    }
   }
 
   async getImprovements(filters = {}) {
