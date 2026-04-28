@@ -29,23 +29,30 @@ jobs:
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: frontEnd/package-lock.json
 
       - name: Install dependencies
+        working-directory: frontEnd
         run: npm ci
 
       - name: Build app
+        working-directory: frontEnd
+        env:
+          PUBLIC_URL: /${{ github.event.repository.name }}
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_RECAPTCHA_SITE_KEY: ${{ secrets.REACT_APP_RECAPTCHA_SITE_KEY }}
         run: npm run build
 
       - name: SPA fallback for GitHub Pages
-        run: cp build/index.html build/404.html
+        run: cp frontEnd/build/index.html frontEnd/build/404.html
 
       - name: Disable Jekyll processing
-        run: touch build/.nojekyll
+        run: touch frontEnd/build/.nojekyll
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./build
+          path: ./frontEnd/build
 
   deploy:
     needs: build
