@@ -1,9 +1,13 @@
 package com.grihom.backend.config;
 
 import com.grihom.backend.model.Improvement;
+import com.grihom.backend.model.User;
 import com.grihom.backend.repository.ImprovementRepository;
+import com.grihom.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,9 +17,19 @@ import java.util.List;
 public class DataSeeder implements CommandLineRunner {
 
     private final ImprovementRepository improvementRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Value("${app.seed.admin.email:admin@homevalue.com}")
+    private String adminEmail;
+
+    @Value("${app.seed.admin.password:admin}")
+    private String adminPassword;
 
     @Override
     public void run(String... args) throws Exception {
+        seedAdminUser();
+
         if (improvementRepository.count() == 0) {
             improvementRepository.saveAll(List.of(
                 Improvement.builder()
@@ -86,5 +100,28 @@ public class DataSeeder implements CommandLineRunner {
             ));
             System.out.println("✅ Seeded initial improvement data!");
         }
+    }
+
+    private void seedAdminUser() {
+        User adminUser = userRepository.findByEmail(adminEmail)
+                .orElseGet(() -> User.builder()
+                        .name("Admin")
+                        .email(adminEmail)
+                        .isActive(true)
+                        .build());
+
+        adminUser.setName("Admin");
+        adminUser.setPassword(passwordEncoder.encode(adminPassword));
+        adminUser.setRole("ROLE_ADMIN");
+        adminUser.setIsActive(true);
+
+        if (adminUser.getId() == null) {
+            userRepository.save(adminUser);
+            System.out.println("Seeded default admin user: " + adminEmail);
+            return;
+        }
+
+        userRepository.save(adminUser);
+        System.out.println("Promoted " + adminEmail + " to ROLE_ADMIN");
     }
 }
